@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "HelloWorld",
-    "slug": "expo-template-default",
+    "name": "anon-app",
+    "slug": "anon-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,13 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.irisxviiorg.anonapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.irisxviiorg.anonapp"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +38,18 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a366e412-dd57-46e4-ae41-7612eef2c13a"
+      }
+    },
+    "owner": "irisxvii-org",
+    "updates": {
+      "url": "https://u.expo.dev/a366e412-dd57-46e4-ae41-7612eef2c13a"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }
