@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import {StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import {StyleSheet, Text, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -12,56 +12,68 @@ export default function HowToReport() {
         <ThemedText type="title" style={styles.appTitle}>
           My Reports
         </ThemedText>
+        <ThemedText style={styles.caption}>
+                  Track the status of your reports
+                </ThemedText>
+
+        <View style={styles.reportBox}>
+        <View style={styles.reportHeader}>
+          <Text style={styles.reportTitle}>Suspicious Activity</Text>
+          <Text style={styles.reportStatus}>Pending</Text>
+        </View>
+        <Text style={styles.reportDescription}>
+          Someone was seen standing near the...
+        </Text>
+        <Text style={styles.reportDate}>Reported on: April 12, 2025</Text>
+      </View>
       </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
+    paddingHorizontal: 25,
+    paddingVertical: 85,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 15,
   },
   appTitle: {
     fontSize: 32,
     fontWeight: 'bold',
   },
   caption: {
-    textAlign: 'center',
     fontSize: 16,
     opacity: 0.7,
-    paddingHorizontal: 20,
+  },  
+  reportBox: {
+    backgroundColor: '#333',
+    padding: 15,
+    borderRadius: 10,
+    borderWidth: .5, 
+    borderColor: '#ddd', 
+    marginTop: 20,
+    gap: 6,
   },
-  buttonOutlined: {
-    width: '80%',
-    borderColor: '#10B77F',
-    borderWidth: 2,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-    backgroundColor: 'transparent',
+  reportHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  
-  buttonFilled: {
-    width: '80%',
-    backgroundColor: '#10B77F',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-  },
-  
-  buttonTextOutlined: {
-    color: '#10B77F',
-    textAlign: 'center',
-    fontSize: 16,
+  reportTitle: {
+    fontSize: 18,
     fontWeight: '600',
+    color: 'white',
   },
-  
-  buttonTextFilled: {
-    color: 'black',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '600',
+  reportStatus: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#FFA500', 
+  },
+  reportDescription: {
+    fontSize: 15,
+    color: 'white',
+  },
+  reportDate: {
+    fontSize: 13,
+    color: '#777',
   },
 });

@@ -14,10 +14,10 @@ export default function ReportDetails() {
 
       <ThemedView style={styles.mainContainer}>
         <ThemedText type="title" style={styles.appTitle}>
-          What would you like to report ?
+          Select Category
         </ThemedText>
         <ThemedText style={styles.caption}>
-          Select a category that best describes your concern
+          Choose the type of incident to report
         </ThemedText>
 
         <View style={styles.buttonsGrid}>
@@ -52,20 +52,18 @@ export default function ReportDetails() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
     gap: 15,
   },
   appTitle: {
     fontSize: 32,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
   caption: {
-    textAlign: 'center',
-    fontSize: 14,
+    fontSize: 16,
     opacity: 0.7,
-    paddingHorizontal: 20,
+    marginTop: -12,
   },
   buttonsGrid: {
     flexDirection: 'row',
