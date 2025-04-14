@@ -1,10 +1,13 @@
+import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
-import { StyleSheet, Platform, TouchableOpacity, Text, View } from 'react-native';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useRouter } from 'expo-router';
 
 export default function ReportDetails() {
+  const router = useRouter();
   return (
 
       <ThemedView style={styles.mainContainer}>
@@ -16,19 +19,23 @@ export default function ReportDetails() {
         </ThemedText>
 
         <View style={styles.buttonsGrid}>
-        <TouchableOpacity style={styles.buttonOutlined}>
+        <TouchableOpacity style={styles.buttonOutlined}
+        onPress={() => router.push('/detail')}>
           <Text style={styles.buttonTextOutlined}>Drug Related</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonOutlined}>
+        <TouchableOpacity style={styles.buttonOutlined}
+        onPress={() => router.push('/detail')}>
           <Text style={styles.buttonTextOutlined}>Abuse Cases</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonOutlined}>
+        <TouchableOpacity style={styles.buttonOutlined}
+        onPress={() => router.push('/detail')}>
           <Text style={styles.buttonTextOutlined}>Suspicious Activity</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonOutlined}>
+        <TouchableOpacity style={styles.buttonOutlined}
+        onPress={() => router.push('/detail')}>
           <Text style={styles.buttonTextOutlined}>Other Issues</Text>
         </TouchableOpacity>
         </View>
@@ -70,23 +77,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   
-  buttonFilled: {
-    width: '40%',
-    backgroundColor: '#10B77F',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-  },
-  
   buttonTextOutlined: {
     color: '#10B77F',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  
-  buttonTextFilled: {
-    color: 'black',
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '600',

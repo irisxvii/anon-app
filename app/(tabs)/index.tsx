@@ -7,7 +7,6 @@ import { ThemedView } from '@/components/ThemedView';
 export default function HomeScreen() {
   const router = useRouter();
   return (
-
       <ThemedView style={styles.mainContainer}>
         <ThemedText type="title" style={styles.appTitle}>
           Speak Up!

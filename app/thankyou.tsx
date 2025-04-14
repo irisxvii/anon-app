@@ -42,15 +42,6 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     paddingHorizontal: 20,
   },
-  buttonOutlined: {
-    width: '80%',
-    borderColor: '#10B77F',
-    borderWidth: 2,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-    backgroundColor: 'transparent',
-  },
   
   buttonFilled: {
     width: '80%',
@@ -58,13 +49,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 8,
-  },
-  
-  buttonTextOutlined: {
-    color: '#10B77F',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '600',
   },
   
   buttonTextFilled: {
