@@ -1,8 +1,5 @@
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
-import { Pill } from 'lucide-react-native';
-import { Shield } from 'lucide-react-native';
-import { Eye } from 'lucide-react-native';
-import { CircleAlert } from 'lucide-react-native';
+import { Pill, Shield, Eye, CircleAlert } from 'lucide-react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
