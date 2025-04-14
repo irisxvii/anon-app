@@ -10,13 +10,8 @@ export default function HowToReport() {
 
       <ThemedView style={styles.mainContainer}>
         <ThemedText type="title" style={styles.appTitle}>
-          How to Make a Report
+          My Reports
         </ThemedText>
-
-        <TouchableOpacity style={styles.buttonFilled}
-        onPress={() => router.push('/report')}>
-          <Text style={styles.buttonTextFilled}>Report Now</Text>
-        </TouchableOpacity>
       </ThemedView>
   );
 }

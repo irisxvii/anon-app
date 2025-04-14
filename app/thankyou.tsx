@@ -27,6 +27,10 @@ export default function HomeScreen() {
         onPress={() => router.push('/report')}>
           <Text style={styles.buttonTextFilled}>Report Another Issue</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonOutlined}
+        onPress={() => router.push('/(tabs)')}>
+          <Text style={styles.buttonTextOutlined}>Go Home</Text>
+        </TouchableOpacity>
         </ThemedView>
   );
 }
@@ -61,9 +65,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 8,
   },
-  
+
+  buttonOutlined: {
+    width: '80%',
+    borderColor: '#10B77F',
+    borderWidth: 2,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    backgroundColor: 'transparent',
+  },  
+
   buttonTextFilled: {
     color: 'black',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  buttonTextOutlined: {
+    color: '#10B77F',
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '600',

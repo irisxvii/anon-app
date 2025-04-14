@@ -17,7 +17,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity style={styles.buttonOutlined}
         onPress={() => router.push('/howToReport')}>
-          <Text style={styles.buttonTextOutlined}>How to Report</Text>
+          <Text style={styles.buttonTextOutlined}>My Reports</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonFilled}
