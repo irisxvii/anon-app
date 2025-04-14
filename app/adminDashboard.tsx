@@ -11,12 +11,14 @@ export default function MyReports() {
     const [status1, setStatus1] = useState('Pending');
     const [status2, setStatus2] = useState('Pending');
 
+    const [expanded1, setExpanded1] = useState(false);
+    const [expanded2, setExpanded2] = useState(false);
+
     const toggleStatus = (currentStatus: string, setStatus: Function) => {
     setStatus(currentStatus === 'Pending' ? 'Resolved' : 'Pending');
   };
 
   return (
-
       <ThemedView style={styles.mainContainer}>
         <ThemedText type="title" style={styles.appTitle}>
           Recent Reports
@@ -26,6 +28,8 @@ export default function MyReports() {
                 </ThemedText>
 
         {/* Report 1 */}
+        <TouchableOpacity 
+        onPress={() => setExpanded1(!expanded1)}>
         <View style={styles.reportBox}>
         <View style={styles.reportHeader}>
           <Text style={styles.reportTitle}>Suspicious Activity</Text>
@@ -43,31 +47,42 @@ export default function MyReports() {
           </TouchableOpacity>
         </View>
         <Text style={styles.reportDescription}>
-          Someone was seen standing near the...
-        </Text>
+        {expanded1
+              ? 'Someone was seen standing near the back gate of the hostel, behaving suspiciously and attempting to look through windows.'
+              : 'Someone was seen standing near the...'}
+          </Text>
         <Text style={styles.reportDate}>Reported on: April 12, 2025</Text>
       </View>
+      </TouchableOpacity>
 
         {/* Report 2 */}
+        <TouchableOpacity 
+        onPress={() => setExpanded2(!expanded2)}>
         <View style={styles.reportBox}>
-        <View style={styles.reportHeader}>
-          <Text style={styles.reportTitle}>Abuse Cases</Text>
-          <TouchableOpacity onPress={() => toggleStatus(status2, setStatus2)}>
-            <Text
-              style={[
-                styles.reportStatus,
-                status2 === 'Resolved' && styles.resolved,
-              ]}
+          <View style={styles.reportHeader}>
+            <Text style={styles.reportTitle}>Abuse Cases</Text>
+            <TouchableOpacity
+              onPress={() => toggleStatus(status2, setStatus2)}
+              onPressIn={(e) => e.stopPropagation()}
             >
-              {status2}
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={[
+                  styles.reportStatus,
+                  status2 === 'Resolved' && styles.resolved,
+                ]}
+              >
+                {status2}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.reportDescription}>
+            {expanded2
+              ? 'A group of students were seen gathering behind the classroom and reportedly engaging in aggressive behavior, potentially involving verbal abuse.'
+              : 'A group of students were seen gather...'}
+          </Text>
+          <Text style={styles.reportDate}>Reported on: April 10, 2025</Text>
         </View>
-        <Text style={styles.reportDescription}>
-          A group of students were seen gather...
-        </Text>
-        <Text style={styles.reportDate}>Reported on: April 10, 2025</Text>
-      </View>
+      </TouchableOpacity>
     </ThemedView>
   );
 }
