@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    width: '100%',
+    width: '90%',
     borderWidth: 1,
     borderColor: '#ccc',
     paddingVertical: 10,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   buttonFilled: {
-    width: '100%',
+    width: '90%',
     backgroundColor: '#10B77F',
     paddingVertical: 12,
     borderRadius: 8,
