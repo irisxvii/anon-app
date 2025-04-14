@@ -1,14 +1,21 @@
 import { useRouter } from 'expo-router';
 import {StyleSheet, TouchableOpacity, Text } from 'react-native';
 
+import LottieView from 'lottie-react-native';
+
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
   const router = useRouter();
   return (
-
-      <ThemedView style={styles.mainContainer}>
+    <ThemedView style={styles.mainContainer}>
+      <LottieView 
+        source={require('@/assets/animations/tickk.json')} 
+        autoPlay 
+        loop={false} 
+        style={styles.tickAnimation}
+      />
         <ThemedText type="title" style={styles.appTitle}>
           Thank You !
         </ThemedText>
@@ -20,7 +27,7 @@ export default function HomeScreen() {
         onPress={() => router.push('/report')}>
           <Text style={styles.buttonTextFilled}>Report Another Issue</Text>
         </TouchableOpacity>
-      </ThemedView>
+        </ThemedView>
   );
 }
 
@@ -30,6 +37,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 15,
+  },
+   tickAnimation: {
+    width: 120,
+    height: 120,
   },
   appTitle: {
     fontSize: 32,
