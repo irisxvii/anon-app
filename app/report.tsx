@@ -1,14 +1,15 @@
-import { Image, StyleSheet, Platform, TouchableOpacity, Text, View } from 'react-native';
+
+import { StyleSheet, Platform, TouchableOpacity, Text, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
+export default function ReportDetails() {
   return (
 
       <ThemedView style={styles.mainContainer}>
         <ThemedText type="title" style={styles.appTitle}>
-          What would you like to report?
+          What would you like to report ?
         </ThemedText>
         <ThemedText style={styles.caption}>
           Select a category that best describes your concern

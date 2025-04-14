@@ -10,20 +10,15 @@ export default function HomeScreen() {
 
       <ThemedView style={styles.mainContainer}>
         <ThemedText type="title" style={styles.appTitle}>
-          Speak Up!
+          Thank You !
         </ThemedText>
         <ThemedText style={styles.caption}>
-          Help keep our campus safe by reporting concerns anonymously. Your voice matters!
+          Your report has been submitted anonymously. We appreciate your commitment to keeping our campus safe.
         </ThemedText>
-
-        <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/howToReport')}>
-          <Text style={styles.buttonTextOutlined}>How to Report</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonFilled}
         onPress={() => router.push('/report')}>
-          <Text style={styles.buttonTextFilled}>Report Now</Text>
+          <Text style={styles.buttonTextFilled}>Report Another Issue</Text>
         </TouchableOpacity>
       </ThemedView>
   );
@@ -39,6 +34,7 @@ const styles = StyleSheet.create({
   appTitle: {
     fontSize: 32,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   caption: {
     textAlign: 'center',

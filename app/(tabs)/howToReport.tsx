@@ -1,25 +1,17 @@
 import { useRouter } from 'expo-router';
-import {StyleSheet, TouchableOpacity, Text } from 'react-native';
+import {StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
-  const router = useRouter();
+export default function HowToReport() {
+    const router = useRouter();
   return (
 
       <ThemedView style={styles.mainContainer}>
         <ThemedText type="title" style={styles.appTitle}>
-          Speak Up!
+          How to Make a Report
         </ThemedText>
-        <ThemedText style={styles.caption}>
-          Help keep our campus safe by reporting concerns anonymously. Your voice matters!
-        </ThemedText>
-
-        <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/howToReport')}>
-          <Text style={styles.buttonTextOutlined}>How to Report</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonFilled}
         onPress={() => router.push('/report')}>
