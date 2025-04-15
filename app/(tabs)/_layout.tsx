@@ -34,7 +34,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="howToReport"
+        name="myReports"
         options={{
           title: 'My Reports',
           tabBarIcon: ({ color }) => <IconSymbol size={25} name="paperplane.fill" color={color} />,

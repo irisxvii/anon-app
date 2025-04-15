@@ -1,11 +1,11 @@
 import { useRouter } from 'expo-router';
-import {StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import { GraduationCap, Shield } from 'lucide-react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
+export default function RoleSelectionScreen() {
   const router = useRouter();
   return (
       <ThemedView style={styles.mainContainer}>
@@ -17,23 +17,27 @@ export default function HomeScreen() {
         </ThemedText>
 
         <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.buttonOutlined} 
-        onPress={() => router.push('/(tabs)')}>
-        <View style={styles.buttonContent}>
-          <GraduationCap size={48} color="#10B77F" />
-          <Text style={styles.buttonTextOutlined}>Continue as User</Text>
-        </View>
-      </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.buttonOutlined} 
+            onPress={() => router.replace('/(tabs)')}
+          >
+            <View style={styles.buttonContent}>
+              <GraduationCap size={48} color="#10B77F" />
+              <Text style={styles.buttonTextOutlined}>Continue as User</Text>
+            </View>
+          </TouchableOpacity>
 
-<TouchableOpacity style={styles.buttonFilled} 
-onPress={() => router.push('/adminLogin')}>
-  <View style={styles.buttonContent}>
-    <Shield size={40} color="black" />
-    <Text style={styles.buttonTextFilled}>Admin Login</Text>
-  </View>
-</TouchableOpacity>
-</View>
-</ThemedView>
+          <TouchableOpacity 
+            style={styles.buttonFilled} 
+            onPress={() => router.push('/adminLogin')}
+          >
+            <View style={styles.buttonContent}>
+              <Shield size={40} color="black" />
+              <Text style={styles.buttonTextFilled}>Admin Login</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ThemedView>
   );
 }
 
@@ -62,7 +66,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: 'transparent',
   },
-  
   buttonFilled: {
     backgroundColor: '#10B77F',
     paddingVertical: 12,
@@ -70,14 +73,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
   },
-  
   buttonTextOutlined: {
     color: '#10B77F',
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '600',
   },
-  
   buttonTextFilled: {
     color: 'black',
     textAlign: 'center',
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   buttonContent: {
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-});
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}); 
