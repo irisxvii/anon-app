@@ -1,16 +1,52 @@
-import { useRouter } from 'expo-router';
-import { View, StyleSheet, TouchableOpacity, Text, TextInput, ScrollView } from 'react-native';
-
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Alert, View, StyleSheet, TouchableOpacity, Text, TextInput, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { ReportCategory, useReport } from '@/hooks/useReport';
 import { useState } from 'react';
 
-export default function HomeScreen() {
+export default function ReportDetailScreen() {
   const router = useRouter();
+  const { category } = useLocalSearchParams<{ category: ReportCategory }>();
+  const { submitReport, isSubmitting, error } = useReport();
+  
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [date, setDate] = useState('');
   const [vehicle, setVehicle] = useState('');
+
+  const handleSubmit = async () => {
+    console.log('Starting submission..');
+    if (!description || !location || !date) {
+      Alert.alert('Error', 'Please fill in all required fields');
+      return;
+    }
+
+    try {
+      console.log('Submitting report with data:', {
+        category,
+        description,
+        location,
+        date,
+        vehicle: vehicle || undefined,
+      });
+
+      await submitReport({
+        category,
+        description,
+        location,
+        date,
+        vehicle: vehicle || undefined,
+      });
+
+      console.log('Report submitted successfully');
+      router.push('/screens/thankyou');
+    } catch (err) {
+      console.error('Error submitting report:', err);
+      Alert.alert('Error', error || 'Failed to submit report. Please try again.');
+    }
+  };
+
   return (
       <ThemedView style={styles.mainContainer}>
         <ScrollView contentContainerStyle={styles.scrollContainer}showsVerticalScrollIndicator={false}>
@@ -56,11 +92,16 @@ export default function HomeScreen() {
         onChangeText={setVehicle}
       />
 
-      <View style={{ marginTop: 8 }}>
-        <TouchableOpacity style={styles.buttonFilled}
-        onPress={() => router.push('/screens/thankyou')}>
-          <Text style={styles.buttonTextFilled}>Submit Report</Text>
-        </TouchableOpacity>
+        <View style={{ marginTop: 8 }}>
+          <TouchableOpacity 
+            style={[styles.buttonFilled, isSubmitting && styles.buttonDisabled]}
+            onPress={handleSubmit}
+            disabled={isSubmitting}
+          >
+            <Text style={styles.buttonTextFilled}>
+              {isSubmitting ? 'Submitting..' : 'Submit Report'}
+            </Text>
+          </TouchableOpacity>
         </View>
         </ScrollView>
       </ThemedView>
@@ -116,7 +157,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 8,
   },
-  
+  buttonDisabled: {
+    opacity: 0.7,
+  },
   buttonTextFilled: {
     color: 'black',
     textAlign: 'center',

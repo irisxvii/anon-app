@@ -3,10 +3,19 @@ import { Pill, Shield, Eye, CircleAlert } from 'lucide-react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { ReportCategory } from '@/hooks/useReport';
 import { useRouter } from 'expo-router';
 
-export default function ReportDetails() {
+export default function ReportScreen() {
   const router = useRouter();
+
+  const handleCategorySelect = (category: ReportCategory) => {
+    router.push({
+      pathname: '/screens/detail',
+      params: { category }
+    });
+  };
+
   return (
 
       <ThemedView style={styles.mainContainer}>
@@ -17,27 +26,31 @@ export default function ReportDetails() {
           Choose the type of incident to report
         </ThemedText>
 
-        <View style={styles.buttonsGrid}>
+      <View style={styles.buttonsGrid}>
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/screens/detail')}>
+          onPress={() => handleCategorySelect('Drug Related')}
+        >
           <Pill size={38} color="white" />
           <Text style={styles.buttonTextOutlined}>Drug{'\n'}Related</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/screens/detail')}>
+          onPress={() => handleCategorySelect('Abuse Cases')}
+        >
           <Shield size={39} color="white" />
           <Text style={styles.buttonTextOutlined}>Abuse{'\n'}Cases</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/screens/detail')}>
+          onPress={() => handleCategorySelect('Suspicious Activity')}
+        >
           <Eye size={39} color="white" />
           <Text style={styles.buttonTextOutlined}>Suspicious Activity</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/screens/detail')}>
+          onPress={() => handleCategorySelect('Other Issues')}
+        >
           <CircleAlert size={39} color="white" />
           <Text style={styles.buttonTextOutlined}>Other{'\n'}Issues</Text>
         </TouchableOpacity>

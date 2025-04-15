@@ -110,13 +110,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 12,
+    gap: 10,
     paddingHorizontal: 25,
   },
   appTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   input: {
     width: '90%',
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#10B77F',
     paddingVertical: 12,
     borderRadius: 8,
-    marginTop: 20,
   },
   buttonDisabled: {
     opacity: 0.7,
