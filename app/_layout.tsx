@@ -37,6 +37,11 @@ export default function RootLayout() {
           }} 
         />
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="screens/report" />
+        <Stack.Screen name="screens/detail" />
+        <Stack.Screen name="screens/thankyou" />
+        <Stack.Screen name="adminLogin" />
+        <Stack.Screen name="adminDashboard" />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

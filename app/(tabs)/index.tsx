@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import {StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -16,12 +16,12 @@ export default function HomeScreen() {
         </ThemedText>
 
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/myReports')}>
+        onPress={() => router.push('/(tabs)/myReports')}>
           <Text style={styles.buttonTextOutlined}>My Reports</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonFilled}
-        onPress={() => router.push('/report')}>
+        onPress={() => router.push('/screens/report')}>
           <Text style={styles.buttonTextFilled}>Report Now</Text>
         </TouchableOpacity>
       </ThemedView>

@@ -58,7 +58,7 @@ export default function HomeScreen() {
 
       <View style={{ marginTop: 8 }}>
         <TouchableOpacity style={styles.buttonFilled}
-        onPress={() => router.push('/thankyou')}>
+        onPress={() => router.push('/screens/thankyou')}>
           <Text style={styles.buttonTextFilled}>Submit Report</Text>
         </TouchableOpacity>
         </View>
@@ -69,8 +69,10 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   mainContainer: {
+    flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
+    paddingTop: 60,
   },
   scrollContainer: {
     paddingVertical: 30,

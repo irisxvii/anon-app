@@ -19,25 +19,25 @@ export default function ReportDetails() {
 
         <View style={styles.buttonsGrid}>
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/detail')}>
+        onPress={() => router.push('/screens/detail')}>
           <Pill size={38} color="white" />
           <Text style={styles.buttonTextOutlined}>Drug{'\n'}Related</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/detail')}>
+        onPress={() => router.push('/screens/detail')}>
           <Shield size={39} color="white" />
           <Text style={styles.buttonTextOutlined}>Abuse{'\n'}Cases</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/detail')}>
+        onPress={() => router.push('/screens/detail')}>
           <Eye size={39} color="white" />
           <Text style={styles.buttonTextOutlined}>Suspicious Activity</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonOutlined}
-        onPress={() => router.push('/detail')}>
+        onPress={() => router.push('/screens/detail')}>
           <CircleAlert size={39} color="white" />
           <Text style={styles.buttonTextOutlined}>Other{'\n'}Issues</Text>
         </TouchableOpacity>
