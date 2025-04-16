@@ -29,20 +29,73 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
+      <Stack 
+        screenOptions={{ 
+          headerShown: false,
+          animation: 'slide_from_right',
+          animationDuration: 300,
+          gestureEnabled: true,
+          gestureDirection: 'horizontal',
+          fullScreenGestureEnabled: true,
+        }}
+      >
         <Stack.Screen 
           name="roleSelection" 
           options={{ 
-            animation: 'fade'
+            animation: 'fade',
+            animationDuration: 400,
           }} 
         />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="screens/report" />
-        <Stack.Screen name="screens/detail" />
-        <Stack.Screen name="screens/thankyou" />
-        <Stack.Screen name="adminLogin" />
-        <Stack.Screen name="adminDashboard" />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen 
+          name="(tabs)" 
+          options={{
+            animation: 'slide_from_right',
+            animationDuration: 300,
+          }}
+        />
+        <Stack.Screen 
+          name="screens/report" 
+          options={{
+            animation: 'slide_from_right',
+            animationDuration: 300,
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen 
+          name="screens/detail" 
+          options={{
+            animation: 'slide_from_right',
+            animationDuration: 300,
+          }}
+        />
+        <Stack.Screen 
+          name="screens/thankyou" 
+          options={{
+            animation: 'fade',
+            animationDuration: 400,
+          }}
+        />
+        <Stack.Screen 
+          name="adminLogin" 
+          options={{
+            animation: 'slide_from_right',
+            animationDuration: 300,
+          }}
+        />
+        <Stack.Screen 
+          name="adminDashboard" 
+          options={{
+            animation: 'slide_from_right',
+            animationDuration: 300,
+          }}
+        />
+        <Stack.Screen 
+          name="+not-found" 
+          options={{
+            animation: 'fade',
+            animationDuration: 300,
+          }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
