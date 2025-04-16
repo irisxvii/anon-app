@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -23,6 +23,7 @@ export default function AdminDashboard() {
     const { reports, loading, error } = useFetchReports();
     const { updateReportStatus, isUpdating } = useUpdateReport();
     const [expandedReports, setExpandedReports] = useState<{ [key: string]: boolean }>({});
+    const scrollY = new Animated.Value(0);
 
     const toggleExpand = (reportId: string) => {
         setExpandedReports(prev => ({
@@ -67,74 +68,108 @@ export default function AdminDashboard() {
                 Overview of all submitted concerns.
             </ThemedText>
 
-            {validReports.length === 0 ? (
-                <ThemedText style={styles.noReportsText}>
-                    No reports submitted yet
-                </ThemedText>
-            ) : (
-                validReports.map((report) => (
-                    <TouchableOpacity 
-                        key={report.id} 
-                        onPress={() => toggleExpand(report.id)}
-                    >
-                        <View style={styles.reportBox}>
-                            <View style={styles.reportHeader}>
-                                <Text style={styles.reportTitle}>{report.category}</Text>
-                                <TouchableOpacity
-                                    onPress={(e) => {
-                                        e.stopPropagation();
-                                        handleStatusUpdate(report.id, report.status);
-                                    }}
-                                    disabled={isUpdating}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.reportStatus,
-                                            { color: report.status === 'resolved' ? '#00CC66' : '#FFA500' }
-                                        ]}
-                                    >
-                                        {report.status}
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.reportDescription}>
-                                {expandedReports[report.id] 
-                                    ? report.description 
-                                    : report.description.length > 50 
-                                        ? `${report.description.substring(0, 50)}...`
-                                        : report.description}
-                            </Text>
-                            {expandedReports[report.id] && (
-                                <View style={styles.detailsContainer}>
-                                    <View style={styles.detailRow}>
-                                        <View style={styles.detailLabelContainer}>
-                                            <Text style={styles.detailLabel}>Location:</Text>
+            <Animated.ScrollView
+                style={styles.scrollView}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: true }
+                )}
+                scrollEventThrottle={16}
+            >
+                {validReports.length === 0 ? (
+                    <ThemedText style={styles.noReportsText}>
+                        No reports submitted yet
+                    </ThemedText>
+                ) : (
+                    validReports.map((report, index) => {
+                        const inputRange = [
+                            -1,
+                            0,
+                            index * 100,
+                            (index + 2) * 100
+                        ];
+                        const scale = scrollY.interpolate({
+                            inputRange,
+                            outputRange: [1, 1, 1, 0.8]
+                        });
+                        const opacity = scrollY.interpolate({
+                            inputRange,
+                            outputRange: [1, 1, 1, 0.3]
+                        });
+
+                        return (
+                            <Animated.View
+                                key={report.id}
+                                style={[
+                                    styles.reportContainer,
+                                    {
+                                        transform: [{ scale }],
+                                        opacity
+                                    }
+                                ]}
+                            >
+                                <TouchableOpacity onPress={() => toggleExpand(report.id)}>
+                                    <View style={styles.reportBox}>
+                                        <View style={styles.reportHeader}>
+                                            <Text style={styles.reportTitle}>{report.category}</Text>
+                                            <TouchableOpacity
+                                                onPress={(e) => {
+                                                    e.stopPropagation();
+                                                    handleStatusUpdate(report.id, report.status);
+                                                }}
+                                                disabled={isUpdating}
+                                            >
+                                                <Text
+                                                    style={[
+                                                        styles.reportStatus,
+                                                        { color: report.status === 'resolved' ? '#00CC66' : '#FFA500' }
+                                                    ]}
+                                                >
+                                                    {report.status}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </View>
-                                        <Text style={styles.detailValue}>{report.location}</Text>
-                                    </View>
-                                    <View style={styles.detailRow}>
-                                        <View style={styles.detailLabelContainer}>
-                                            <Text style={styles.detailLabel}>Date & Time of Incident:</Text>
-                                        </View>
-                                        <Text style={styles.detailValue}>{report.date}</Text>
-                                    </View>
-                                    {report.vehicle && (
-                                        <View style={styles.detailRow}>
-                                            <View style={styles.detailLabelContainer}>
-                                                <Text style={styles.detailLabel}>Vehicle Details:</Text>
+                                        <Text style={styles.reportDescription}>
+                                            {expandedReports[report.id] 
+                                                ? report.description 
+                                                : report.description.length > 50 
+                                                    ? `${report.description.substring(0, 50)}...`
+                                                    : report.description}
+                                        </Text>
+                                        {expandedReports[report.id] && (
+                                            <View style={styles.detailsContainer}>
+                                                <View style={styles.detailRow}>
+                                                    <View style={styles.detailLabelContainer}>
+                                                        <Text style={styles.detailLabel}>Location:</Text>
+                                                    </View>
+                                                    <Text style={styles.detailValue}>{report.location}</Text>
+                                                </View>
+                                                <View style={styles.detailRow}>
+                                                    <View style={styles.detailLabelContainer}>
+                                                        <Text style={styles.detailLabel}>Date & Time of Incident:</Text>
+                                                    </View>
+                                                    <Text style={styles.detailValue}>{report.date}</Text>
+                                                </View>
+                                                {report.vehicle && (
+                                                    <View style={styles.detailRow}>
+                                                        <View style={styles.detailLabelContainer}>
+                                                            <Text style={styles.detailLabel}>Vehicle Details:</Text>
+                                                        </View>
+                                                        <Text style={styles.detailValue}>{report.vehicle}</Text>
+                                                    </View>
+                                                )}
                                             </View>
-                                            <Text style={styles.detailValue}>{report.vehicle}</Text>
-                                        </View>
-                                    )}
-                                </View>
-                            )}
-                            <Text style={styles.reportDate}>
-                                Reported on: {formatDate(report.createdAt)}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                ))
-            )}
+                                        )}
+                                        <Text style={styles.reportDate}>
+                                            Reported on: {formatDate(report.createdAt)}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </Animated.View>
+                        );
+                    })
+                )}
+            </Animated.ScrollView>
         </ThemedView>
     );
 }
@@ -223,4 +258,10 @@ const styles = StyleSheet.create({
     color: 'white',
     flex: 1,
 },
+  scrollView: {
+    flex: 1,
+  },
+  reportContainer: {
+    marginBottom: 15,
+  },
 });
