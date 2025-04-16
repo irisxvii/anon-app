@@ -1,96 +1,148 @@
 import { useRouter } from 'expo-router';
-import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useFetchReports } from '@/hooks/useFetchReports';
+import { ReportData } from '@/hooks/useReport';
+import { useUpdateReport } from '@/hooks/useUpdateReport';
 
-export default function MyReports() {
+type ReportWithId = ReportData & { id: string };
+
+const formatDate = (date: Date | Timestamp) => {
+    if (date instanceof Timestamp) {
+        return date.toDate().toLocaleDateString();
+    }
+    return date.toLocaleDateString();
+};
+
+export default function AdminDashboard() {
     const router = useRouter();
+    const { reports, loading, error } = useFetchReports();
+    const { updateReportStatus, isUpdating } = useUpdateReport();
+    const [expandedReports, setExpandedReports] = useState<{ [key: string]: boolean }>({});
 
-    const [status1, setStatus1] = useState('Pending');
-    const [status2, setStatus2] = useState('Pending');
+    const toggleExpand = (reportId: string) => {
+        setExpandedReports(prev => ({
+            ...prev,
+            [reportId]: !prev[reportId]
+        }));
+    };
 
-    const [expanded1, setExpanded1] = useState(false);
-    const [expanded2, setExpanded2] = useState(false);
+    const handleStatusUpdate = async (reportId: string, currentStatus: string) => {
+        try {
+            const newStatus = currentStatus === 'pending' ? 'resolved' : 'pending';
+            await updateReportStatus(reportId, newStatus);
+        } catch (err) {
+            console.error('Failed to update status:', err);
+        }
+    };
 
-    const toggleStatus = (currentStatus: string, setStatus: Function) => {
-    setStatus(currentStatus === 'Pending' ? 'Resolved' : 'Pending');
-  };
+    if (loading) {
+        return (
+            <ThemedView style={styles.mainContainer}>
+                <ActivityIndicator size="large" color="#10B77F" />
+            </ThemedView>
+        );
+    }
 
-  return (
-      <ThemedView style={styles.mainContainer}>
-        <ThemedText type="title" style={styles.appTitle}>
-          Recent Reports
-        </ThemedText>
-        <ThemedText style={styles.caption}>
-        Overview of all submitted concerns.
+    if (error) {
+        return (
+            <ThemedView style={styles.mainContainer}>
+                <ThemedText style={styles.errorText}>Error loading reports: {error}</ThemedText>
+            </ThemedView>
+        );
+    }
+
+    const validReports = reports.filter((report): report is ReportWithId => !!report.id);
+
+    return (
+        <ThemedView style={styles.mainContainer}>
+            <ThemedText type="title" style={styles.appTitle}>
+                Recent Reports
+            </ThemedText>
+            <ThemedText style={styles.caption}>
+                Overview of all submitted concerns.
+            </ThemedText>
+
+            {validReports.length === 0 ? (
+                <ThemedText style={styles.noReportsText}>
+                    No reports submitted yet
                 </ThemedText>
-
-        {/* Report 1 */}
-        <TouchableOpacity 
-        onPress={() => setExpanded1(!expanded1)}>
-        <View style={styles.reportBox}>
-        <View style={styles.reportHeader}>
-          <Text style={styles.reportTitle}>Suspicious Activity</Text>
-
-          <TouchableOpacity 
-          onPress={() => toggleStatus(status1, setStatus1)}>
-            <Text
-              style={[
-                styles.reportStatus,
-                status1 === 'Resolved' && styles.resolved,
-              ]}
-            >
-              {status1}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.reportDescription}>
-        {expanded1
-              ? 'Someone was seen standing near the back gate of the hostel, behaving suspiciously and attempting to look through windows.'
-              : 'Someone was seen standing near the...'}
-          </Text>
-        <Text style={styles.reportDate}>Reported on: April 12, 2025</Text>
-      </View>
-      </TouchableOpacity>
-
-        {/* Report 2 */}
-        <TouchableOpacity 
-        onPress={() => setExpanded2(!expanded2)}>
-        <View style={styles.reportBox}>
-          <View style={styles.reportHeader}>
-            <Text style={styles.reportTitle}>Abuse Cases</Text>
-            <TouchableOpacity
-              onPress={() => toggleStatus(status2, setStatus2)}
-              onPressIn={(e) => e.stopPropagation()}
-            >
-              <Text
-                style={[
-                  styles.reportStatus,
-                  status2 === 'Resolved' && styles.resolved,
-                ]}
-              >
-                {status2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.reportDescription}>
-            {expanded2
-              ? 'A group of students were seen gathering behind the classroom and reportedly engaging in aggressive behavior, potentially involving verbal abuse.'
-              : 'A group of students were seen gather...'}
-          </Text>
-          <Text style={styles.reportDate}>Reported on: April 10, 2025</Text>
-        </View>
-      </TouchableOpacity>
-    </ThemedView>
-  );
+            ) : (
+                validReports.map((report) => (
+                    <TouchableOpacity 
+                        key={report.id} 
+                        onPress={() => toggleExpand(report.id)}
+                    >
+                        <View style={styles.reportBox}>
+                            <View style={styles.reportHeader}>
+                                <Text style={styles.reportTitle}>{report.category}</Text>
+                                <TouchableOpacity
+                                    onPress={(e) => {
+                                        e.stopPropagation();
+                                        handleStatusUpdate(report.id, report.status);
+                                    }}
+                                    disabled={isUpdating}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.reportStatus,
+                                            { color: report.status === 'resolved' ? '#00CC66' : '#FFA500' }
+                                        ]}
+                                    >
+                                        {report.status}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            <Text style={styles.reportDescription}>
+                                {expandedReports[report.id] 
+                                    ? report.description 
+                                    : report.description.length > 50 
+                                        ? `${report.description.substring(0, 50)}...`
+                                        : report.description}
+                            </Text>
+                            {expandedReports[report.id] && (
+                                <View style={styles.detailsContainer}>
+                                    <View style={styles.detailRow}>
+                                        <View style={styles.detailLabelContainer}>
+                                            <Text style={styles.detailLabel}>Location:</Text>
+                                        </View>
+                                        <Text style={styles.detailValue}>{report.location}</Text>
+                                    </View>
+                                    <View style={styles.detailRow}>
+                                        <View style={styles.detailLabelContainer}>
+                                            <Text style={styles.detailLabel}>Date & Time of Incident:</Text>
+                                        </View>
+                                        <Text style={styles.detailValue}>{report.date}</Text>
+                                    </View>
+                                    {report.vehicle && (
+                                        <View style={styles.detailRow}>
+                                            <View style={styles.detailLabelContainer}>
+                                                <Text style={styles.detailLabel}>Vehicle Details:</Text>
+                                            </View>
+                                            <Text style={styles.detailValue}>{report.vehicle}</Text>
+                                        </View>
+                                    )}
+                                </View>
+                            )}
+                            <Text style={styles.reportDate}>
+                                Reported on: {formatDate(report.createdAt)}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                ))
+            )}
+        </ThemedView>
+    );
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
     paddingHorizontal: 25,
-    paddingVertical: 45,
+    paddingVertical: 75,
     flex: 1,
   },
   appTitle: {
@@ -136,4 +188,39 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#777',
   },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
+},
+  noReportsText: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    opacity: 0.7,
+},
+  detailsContainer: {
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#444',
+    gap: 8,
+},
+  detailRow: {
+    flexDirection: 'row',
+    gap: 8,
+},
+  detailLabelContainer: {
+    width: 150,
+},
+  detailLabel: {
+    fontSize: 14,
+    color: '#999',
+    fontWeight: '500',
+},
+  detailValue: {
+    fontSize: 14,
+    color: 'white',
+    flex: 1,
+},
 });
