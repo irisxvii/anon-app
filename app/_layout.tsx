@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { View } from 'react-native';
 import 'react-native-reanimated';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -25,6 +26,7 @@ export default function RootLayout() {
   }
 
   return (
+    <View style={{ flex: 1, backgroundColor: '#000000' }}>
     <ThemeProvider value={DarkTheme}>
       <Stack 
         screenOptions={{ 
@@ -96,5 +98,6 @@ export default function RootLayout() {
       </Stack>
       <StatusBar style="light" />
     </ThemeProvider>
+    </View>
   );
 }
