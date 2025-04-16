@@ -42,6 +42,9 @@ export default function AdminLoginScreen() {
         case 'auth/wrong-password':
           errorMessage = 'Incorrect password';
           break;
+        case 'auth/invalid-credential':
+          errorMessage = 'Incorrect email or password';
+          break;
         case 'auth/network-request-failed':
           errorMessage = 'Network error. Please check your internet connection';
           break;
