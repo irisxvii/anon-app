@@ -1,33 +1,99 @@
 import { useRouter } from 'expo-router';
-import {StyleSheet, Text, View } from 'react-native';
+import { Timestamp } from 'firebase/firestore';
+import { useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useFetchReports } from '@/hooks/useFetchReports';
+import { ReportData } from '@/hooks/useReport';
+
+// Make id required for the reports list
+type ReportWithId = ReportData & { id: string };
+
+const formatDate = (date: Date | Timestamp) => {
+    if (date instanceof Timestamp) {
+        return date.toDate().toLocaleDateString();
+    }
+    return date.toLocaleDateString();
+};
 
 export default function MyReports() {
     const router = useRouter();
-  return (
+    const { reports, loading, error } = useFetchReports();
+    const [expandedReports, setExpandedReports] = useState<{ [key: string]: boolean }>({});
 
-      <ThemedView style={styles.mainContainer}>
-        <ThemedText type="title" style={styles.appTitle}>
-          My Reports
-        </ThemedText>
-        <ThemedText style={styles.caption}>
-                  Track the status of your reports
+    const toggleExpand = (reportId: string) => {
+        setExpandedReports(prev => ({
+            ...prev,
+            [reportId]: !prev[reportId]
+        }));
+    };
+
+    if (loading) {
+        return (
+            <ThemedView style={styles.mainContainer}>
+                <ActivityIndicator size="large" color="#10B77F" />
+            </ThemedView>
+        );
+    }
+
+    if (error) {
+        return (
+            <ThemedView style={styles.mainContainer}>
+                <ThemedText style={styles.errorText}>Error loading reports: {error}</ThemedText>
+            </ThemedView>
+        );
+    }
+
+    // Filter out any reports without an id and cast to ReportWithId
+    const validReports = reports.filter((report): report is ReportWithId => !!report.id);
+
+    return (
+        <ThemedView style={styles.mainContainer}>
+            <ThemedText type="title" style={styles.appTitle}>
+                My Reports
+            </ThemedText>
+            <ThemedText style={styles.caption}>
+                Track the status of your reports
+            </ThemedText>
+
+            {validReports.length === 0 ? (
+                <ThemedText style={styles.noReportsText}>
+                    No reports submitted yet
                 </ThemedText>
-
-        <View style={styles.reportBox}>
-        <View style={styles.reportHeader}>
-          <Text style={styles.reportTitle}>Suspicious Activity</Text>
-          <Text style={styles.reportStatus}>Pending</Text>
-        </View>
-        <Text style={styles.reportDescription}>
-          Someone was seen standing near the...
-        </Text>
-        <Text style={styles.reportDate}>Reported on: April 12, 2025</Text>
-      </View>
-      </ThemedView>
-  );
+            ) : (
+                validReports.map((report) => (
+                    <TouchableOpacity 
+                        key={report.id} 
+                        onPress={() => toggleExpand(report.id)}
+                    >
+                        <View style={styles.reportBox}>
+                            <View style={styles.reportHeader}>
+                                <Text style={styles.reportTitle}>{report.category}</Text>
+                                <Text style={[
+                                    styles.reportStatus,
+                                    { color: report.status === 'resolved' ? '#00CC66' : '#FFA500' }
+                                ]}>
+                                    {report.status}
+                                </Text>
+                            </View>
+                            <Text style={styles.reportDescription}>
+                                {expandedReports[report.id] 
+                                    ? report.description 
+                                    : report.description.length > 50 
+                                        ? `${report.description.substring(0, 50)}...`
+                                        : report.description}
+                            </Text>
+                            <Text style={styles.reportDate}>
+                                Reported on: {formatDate(report.createdAt)}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                ))
+            )}
+        </ThemedView>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -66,7 +132,6 @@ const styles = StyleSheet.create({
   reportStatus: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#FFA500', 
   },
   reportDescription: {
     fontSize: 15,
@@ -76,4 +141,15 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#777',
   },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
+},
+noReportsText: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    opacity: 0.7,
+},
 });

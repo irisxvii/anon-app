@@ -1,33 +1,35 @@
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { db } from '../FirebaseConfig';
 
 export type ReportCategory = 'Drug Related' | 'Abuse Cases' | 'Suspicious Activity' | 'Other Issues';
+export type ReportStatus = 'pending' | 'resolved';
 
 export interface ReportData {
+  id?: string;
   category: ReportCategory;
   description: string;
   location: string;
   date: string;
   vehicle?: string;
-  status: 'pending';
-  createdAt: Date;
+  status: ReportStatus;
+  createdAt: Date | Timestamp;
 }
 
 export const useReport = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const submitReport = async (data: Omit<ReportData, 'status' | 'createdAt'>) => {
+  const submitReport = async (data: Omit<ReportData, 'status' | 'createdAt' | 'id'>) => {
     console.log('starting submission');
     try {
       setIsSubmitting(true);
       setError(null);
 
-      const reportData: ReportData = {
+      const reportData: Omit<ReportData, 'id'> = {
         ...data,
         status: 'pending',
-        createdAt: new Date(),
+        createdAt: Timestamp.now(),
       };
 
       console.log('attempting to add doc to firestore');
