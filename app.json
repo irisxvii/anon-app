@@ -8,6 +8,9 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "androidStatusBar": {
+      "backgroundColor": "#000000"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.irisxviiorg.anonapp"
@@ -17,10 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "com.irisxviiorg.anonapp",
-      "statusBar": {
-        "backgroundColor": "#000000"
-      }
+      "package": "com.irisxviiorg.anonapp"
     },
     "web": {
       "bundler": "metro",
