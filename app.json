@@ -15,7 +15,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "black"
+        "backgroundColor": "#000000"
       },
       "package": "com.irisxviiorg.anonapp"
     },
