@@ -17,7 +17,10 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "com.irisxviiorg.anonapp"
+      "package": "com.irisxviiorg.anonapp",
+      "statusBar": {
+        "backgroundColor": "#000000"
+      }
     },
     "web": {
       "bundler": "metro",
