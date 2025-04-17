@@ -28,7 +28,7 @@ export default function ReportDetailScreen() {
         description,
         location,
         date,
-        vehicle: vehicle || undefined,
+        ...(vehicle ? { vehicle } : {}),
       });
 
       await submitReport({
@@ -36,7 +36,7 @@ export default function ReportDetailScreen() {
         description,
         location,
         date,
-        vehicle: vehicle || undefined,
+        ...(vehicle ? { vehicle } : {}),
       });
 
       console.log('Report submitted successfully');
@@ -57,7 +57,7 @@ export default function ReportDetailScreen() {
           Please provide as much information as possible to help us address the issue effectively.
         </ThemedText>
 
-        <Text style={styles.label} >Description</Text>
+        <Text style={styles.label} >Description <Text style={styles.required}>*</Text></Text>
         <TextInput
         style={styles.textBox}
         placeholder="Describe the issue."
@@ -67,7 +67,7 @@ export default function ReportDetailScreen() {
         value={description}
         onChangeText={setDescription}
       />
-      <Text style={styles.label} >Location</Text>
+      <Text style={styles.label} >Location <Text style={styles.required}>*</Text></Text>
       <TextInput
         style={styles.textBoxSingleLine}
         placeholder="Where did this occur? Be as specific as possible"
@@ -75,7 +75,7 @@ export default function ReportDetailScreen() {
         value={location}
         onChangeText={setLocation}
       />
-      <Text style={styles.label} >Date and Time</Text>
+      <Text style={styles.label} >Date and Time <Text style={styles.required}>*</Text></Text>
       <TextInput
         style={styles.textBoxSingleLine}
         placeholder="When did this happen?"
@@ -165,5 +165,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '600',
+  },
+  required: {
+    color: 'red',
   },
 });
