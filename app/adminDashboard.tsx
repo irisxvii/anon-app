@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
-import { ActivityIndicator, Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -23,7 +23,6 @@ export default function AdminDashboard() {
     const { reports, loading, error } = useFetchReports();
     const { updateReportStatus, isUpdating } = useUpdateReport();
     const [expandedReports, setExpandedReports] = useState<{ [key: string]: boolean }>({});
-    const scrollY = new Animated.Value(0);
 
     const toggleExpand = (reportId: string) => {
         setExpandedReports(prev => ({
@@ -68,47 +67,16 @@ export default function AdminDashboard() {
                 Overview of all submitted concerns.
             </ThemedText>
 
-            <Animated.ScrollView
-                style={styles.scrollView}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                    { useNativeDriver: true }
-                )}
-                scrollEventThrottle={16}
-            >
+            <ScrollView style={styles.scrollView}>
                 {validReports.length === 0 ? (
                     <ThemedText style={styles.noReportsText}>
                         No reports submitted yet
                     </ThemedText>
                 ) : (
-                    validReports.map((report, index) => {
-                        const inputRange = [
-                            -1,
-                            0,
-                            index * 100,
-                            (index + 2) * 100
-                        ];
-                        const scale = scrollY.interpolate({
-                            inputRange,
-                            outputRange: [1, 1, 1, 0.8]
-                        });
-                        const opacity = scrollY.interpolate({
-                            inputRange,
-                            outputRange: [1, 1, 1, 0.3]
-                        });
-
-                        return (
-                            <Animated.View
-                                key={report.id}
-                                style={[
-                                    styles.reportContainer,
-                                    {
-                                        transform: [{ scale }],
-                                        opacity
-                                    }
-                                ]}
-                            >
-                                <TouchableOpacity onPress={() => toggleExpand(report.id)}>
+                    validReports.map((report) => (
+                        <TouchableOpacity 
+                        key={report.id} 
+                        onPress={() => toggleExpand(report.id)}>
                                     <View style={styles.reportBox}>
                                         <View style={styles.reportHeader}>
                                             <Text style={styles.reportTitle}>{report.category}</Text>
@@ -165,11 +133,9 @@ export default function AdminDashboard() {
                                         </Text>
                                     </View>
                                 </TouchableOpacity>
-                            </Animated.View>
-                        );
-                    })
-                )}
-            </Animated.ScrollView>
+                        ))
+                )}      
+            </ScrollView>
         </ThemedView>
     );
 }
@@ -177,7 +143,7 @@ export default function AdminDashboard() {
 const styles = StyleSheet.create({
   mainContainer: {
     paddingHorizontal: 25,
-    paddingVertical: 75,
+    paddingTop: 60,
     flex: 1,
   },
   appTitle: {
@@ -187,6 +153,7 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 16,
     opacity: 0.7,
+    marginBottom: 8,
   },  
   reportBox: {
     backgroundColor: '#333',
@@ -194,8 +161,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: .5, 
     borderColor: '#ddd', 
-    marginTop: 20,
-    gap: 6,
+    marginTop: 14,
+    gap: 7,
   },
   reportHeader: {
     flexDirection: 'row',
@@ -260,8 +227,6 @@ const styles = StyleSheet.create({
 },
   scrollView: {
     flex: 1,
-  },
-  reportContainer: {
-    marginBottom: 15,
+    marginBottom: 10,
   },
 });
