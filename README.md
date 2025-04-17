@@ -1,50 +1,58 @@
-# Welcome to your Expo app 👋
+# Speak Up🗣️: Anonymous Reporting App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A secure, campus-specific mobile application designed for students to anonymously report incidents like drug usage, suspicious activity, abuse cases, and more. The app has two roles (User & Admin) making it easy to use while keeping the data safe.
 
-## Get started
+## How it Works?
+1. **Users**
+   - Submit detailed reports anonymously under categories like Drug Use, Suspicious Activity, Abuse, or Other
+   - View previously submitted reports
+   - No personal data is collected, all reports are secure and private
 
-1. Install dependencies
+2. **Admins**
+   - Secure login for authorized access
+   - View all submitted reports in a dashboard
+   - Mark reports as Viewed or Resolved
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
+- **Frontend**: React Native with Expo
+- **Backend:** Firebase (Firestore + Auth)
+- **Language:** TypeScript
 
-2. Start the app
+## Current Status
+### Completed
+- Core UI
+- Firebase integration (Auth + Firestore)
+- Anonymous reporting system
+- Admin dashboard with real-time updates
+- Role-based login
+- Report status tracking
+- Basic device testing
 
-   ```bash
-    npx expo start
-   ```
+### In Progress
+- Testing and final deployment setup
 
-In the output, you'll find options to open the app in a
+### Next Up
+- Notify admins in real-time when a new report is submitted
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## How to configure
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. **Environment Setup**
+   - Install Node.js
+   - Install Expo CLI
+     
+     ```
+     npm install -g expo-cli
+     ```
 
-## Get a fresh project
+2. **Firebase Setup**
+   - Create a Firebase project
+   - Enable Authentication and Firestore
+   - Add Firebase configuration to the app
+   - Set up security rules
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+3. **Clone & Run the App**
+      ```
+      git clone https://github.com/irisxvii/anon-app.git
+      npm i
+      npx expo start --go
+     ```
