@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -57,7 +57,7 @@ export default function MyReports() {
             <ThemedText style={styles.caption}>
                 Track the status of your reports
             </ThemedText>
-
+            <ScrollView style={styles.scrollView}>
             {validReports.length === 0 ? (
                 <ThemedText style={styles.noReportsText}>
                     No reports submitted yet
@@ -92,6 +92,7 @@ export default function MyReports() {
                     </TouchableOpacity>
                 ))
             )}
+            </ScrollView>
         </ThemedView>
     );
 }
@@ -99,7 +100,7 @@ export default function MyReports() {
 const styles = StyleSheet.create({
   mainContainer: {
     paddingHorizontal: 25,
-    paddingVertical: 85,
+    paddingTop: 60,
     flex: 1,
   },
   appTitle: {
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 16,
     opacity: 0.7,
+    marginBottom: 8,
   },  
   reportBox: {
     backgroundColor: '#333',
@@ -116,8 +118,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: .5, 
     borderColor: '#ddd', 
-    marginTop: 20,
-    gap: 6,
+    marginTop: 14,
+    gap: 7,
   },
   reportHeader: {
     flexDirection: 'row',
@@ -151,5 +153,9 @@ noReportsText: {
     marginTop: 20,
     fontSize: 16,
     opacity: 0.7,
+},
+scrollView: {
+    flex: 1,
+    marginBottom: 10,
 },
 });
