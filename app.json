@@ -35,7 +35,15 @@
           "image": "./assets/images/splash.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "black"
+          "backgroundColor": "#000000"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "googleServicesFile": "./android/app/google-services.json"
+          }
         }
       ]
     ],
@@ -51,8 +59,6 @@
     "updates": {
       "url": "https://u.expo.dev/a366e412-dd57-46e4-ae41-7612eef2c13a"
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    }
+    "runtimeVersion": "1.0.0"
   }
 }
