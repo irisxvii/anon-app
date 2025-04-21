@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -85,6 +85,30 @@ export default function MyReports() {
                                         ? `${report.description.substring(0, 50)}...`
                                         : report.description}
                             </Text>
+                            {expandedReports[report.id] && (
+                                <View style={styles.detailsContainer}>
+                                    <View style={styles.detailRow}>
+                                        <View style={styles.detailLabelContainer}>
+                                            <Text style={styles.detailLabel}>Location:</Text>
+                                        </View>
+                                        <Text style={styles.detailValue}>{report.location}</Text>
+                                    </View>
+                                    <View style={styles.detailRow}>
+                                        <View style={styles.detailLabelContainer}>
+                                            <Text style={styles.detailLabel}>Date & Time of Incident:</Text>
+                                        </View>
+                                        <Text style={styles.detailValue}>{report.date}</Text>
+                                    </View>
+                                    {report.vehicle && (
+                                        <View style={styles.detailRow}>
+                                            <View style={styles.detailLabelContainer}>
+                                                <Text style={styles.detailLabel}>Vehicle Details:</Text>
+                                            </View>
+                                            <Text style={styles.detailValue}>{report.vehicle}</Text>
+                                        </View>
+                                    )}
+                                </View>
+                            )}
                             <Text style={styles.reportDate}>
                                 Reported on: {formatDate(report.createdAt)}
                             </Text>
@@ -157,5 +181,29 @@ noReportsText: {
 scrollView: {
     flex: 1,
     marginBottom: 10,
+},
+detailsContainer: {
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#444',
+    gap: 8,
+},
+detailRow: {
+    flexDirection: 'row',
+    gap: 8,
+},
+detailLabelContainer: {
+    width: 150,
+},
+detailLabel: {
+    fontSize: 14,
+    color: '#999',
+    fontWeight: '500',
+},
+detailValue: {
+    fontSize: 14,
+    color: 'white',
+    flex: 1,
 },
 });
