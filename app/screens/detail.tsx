@@ -1,9 +1,10 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Alert, View, StyleSheet, TouchableOpacity, Text, TextInput, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ReportCategory, useReport } from '@/hooks/useReport';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
 export default function ReportDetailScreen() {
   const router = useRouter();
@@ -50,13 +51,16 @@ export default function ReportDetailScreen() {
   return (
       <ThemedView style={styles.mainContainer}>
         <ScrollView contentContainerStyle={styles.scrollContainer}showsVerticalScrollIndicator={false}>
+        <Animated.View entering={FadeIn.delay(200)}>
         <ThemedText type="title" style={styles.appTitle}>
           Report Details
         </ThemedText>
         <ThemedText style={styles.caption}>
           Please provide as much information as possible to help us address the issue effectively.
         </ThemedText>
+        </Animated.View>
 
+        <Animated.View entering={FadeIn.delay(300)}>
         <Text style={styles.label} >Description <Text style={styles.required}>*</Text></Text>
         <TextInput
         style={styles.textBox}
@@ -67,6 +71,9 @@ export default function ReportDetailScreen() {
         value={description}
         onChangeText={setDescription}
       />
+      </Animated.View>
+
+      <Animated.View entering={FadeIn.delay(400)}>
       <Text style={styles.label} >Location <Text style={styles.required}>*</Text></Text>
       <TextInput
         style={styles.textBoxSingleLine}
@@ -75,6 +82,9 @@ export default function ReportDetailScreen() {
         value={location}
         onChangeText={setLocation}
       />
+      </Animated.View>
+      
+      <Animated.View entering={FadeIn.delay(500)}>
       <Text style={styles.label} >Date and Time <Text style={styles.required}>*</Text></Text>
       <TextInput
         style={styles.textBoxSingleLine}
@@ -83,6 +93,9 @@ export default function ReportDetailScreen() {
         value={date}
         onChangeText={setDate}
       />
+      </Animated.View>
+
+      <Animated.View entering={FadeIn.delay(600)}>
       <Text style={styles.label} >Vehicle Details (Optional)</Text>
       <TextInput
         style={styles.textBoxSingleLine}
@@ -91,7 +104,9 @@ export default function ReportDetailScreen() {
         value={vehicle}
         onChangeText={setVehicle}
       />
+      </Animated.View>
 
+        <Animated.View entering={FadeIn.delay(700)}>
         <View style={{ marginTop: 8 }}>
           <TouchableOpacity 
             style={[styles.buttonFilled, isSubmitting && styles.buttonDisabled]}
@@ -103,6 +118,7 @@ export default function ReportDetailScreen() {
             </Text>
           </TouchableOpacity>
         </View>
+        </Animated.View>
         </ScrollView>
       </ThemedView>
   ); 
@@ -113,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingTop: 60,
+    paddingTop: 80,
   },
   scrollContainer: {
     paddingVertical: 30,
@@ -131,6 +147,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'semibold',
     color: 'white',
+    marginBottom: 9,
   },  
   textBox: {
     borderColor: '#ccc',
