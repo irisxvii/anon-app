@@ -1,8 +1,7 @@
 # Speak Up🗣️: Anonymous Reporting App
-
 A secure, campus-specific mobile application designed for students to anonymously report incidents like drug usage, suspicious activity, abuse cases, and more. The app has two roles (User & Admin) making it easy to use while keeping the data safe.
 
-## How it Works?
+## <img src="https://github.com/user-attachments/assets/2402c258-eff4-4f63-8f22-6ec3bbf73f23" alt="kinda sus" width="50"/> How it Works? 
 1. **Users**
    - Submit detailed reports anonymously under categories like Drug Use, Suspicious Activity, Abuse, or Other
    - View previously submitted reports
