@@ -12,7 +12,9 @@ A secure, campus-specific mobile application designed for students to anonymousl
    - Secure login for authorized access
    - View all submitted reports in a dashboard
    - Mark reports as Viewed or Resolved
-
+## Wireframes
+![user flow (2)](https://github.com/user-attachments/assets/bd4de9ef-0eb6-4d11-bb09-3284aba5768b)
+   *user interface*
 ## Tech Stack
 - **Frontend**: React Native with Expo
 - **Backend:** Firebase (Firestore + Auth)
