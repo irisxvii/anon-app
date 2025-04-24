@@ -9,7 +9,7 @@ interface CustomTransitionProps {
 
 export function CustomTransition({ children, delay = 0 }: CustomTransitionProps) {
   const scale = useSharedValue(0.8);
-  const rotate = useSharedValue(5);
+  const rotate = useSharedValue(2);
   const opacity = useSharedValue(0);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export function CustomTransition({ children, delay = 0 }: CustomTransitionProps)
     rotate.value = withDelay(
       delay,
       withSequence(
-        withTiming(-5, { duration: 200 }),
+        withTiming(-2, { duration: 200 }),
         withSpring(0, {
           damping: 12,
           stiffness: 100,

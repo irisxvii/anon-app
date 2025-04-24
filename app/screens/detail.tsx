@@ -51,7 +51,7 @@ export default function ReportDetailScreen() {
   return (
       <ThemedView style={styles.mainContainer}>
         <ScrollView contentContainerStyle={styles.scrollContainer}showsVerticalScrollIndicator={false}>
-        <Animated.View entering={FadeIn.delay(200)}>
+        <Animated.View entering={FadeIn.delay(100)}>
         <ThemedText type="title" style={styles.appTitle}>
           Report Details
         </ThemedText>
@@ -73,7 +73,7 @@ export default function ReportDetailScreen() {
       />
       </Animated.View>
 
-      <Animated.View entering={FadeIn.delay(400)}>
+      <Animated.View entering={FadeIn.delay(500)}>
       <Text style={styles.label} >Location <Text style={styles.required}>*</Text></Text>
       <TextInput
         style={styles.textBoxSingleLine}
@@ -84,7 +84,7 @@ export default function ReportDetailScreen() {
       />
       </Animated.View>
       
-      <Animated.View entering={FadeIn.delay(500)}>
+      <Animated.View entering={FadeIn.delay(700)}>
       <Text style={styles.label} >Date and Time <Text style={styles.required}>*</Text></Text>
       <TextInput
         style={styles.textBoxSingleLine}
@@ -95,7 +95,7 @@ export default function ReportDetailScreen() {
       />
       </Animated.View>
 
-      <Animated.View entering={FadeIn.delay(600)}>
+      <Animated.View entering={FadeIn.delay(900)}>
       <Text style={styles.label} >Vehicle Details (Optional)</Text>
       <TextInput
         style={styles.textBoxSingleLine}
@@ -106,8 +106,8 @@ export default function ReportDetailScreen() {
       />
       </Animated.View>
 
-        <Animated.View entering={FadeIn.delay(700)}>
-        <View style={{ marginTop: 8 }}>
+        <Animated.View entering={FadeIn.delay(1100)}>
+        <View style={{ marginTop: 10 }}>
           <TouchableOpacity 
             style={[styles.buttonFilled, isSubmitting && styles.buttonDisabled]}
             onPress={handleSubmit}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingTop: 80,
+    paddingTop: 70,
   },
   scrollContainer: {
     paddingVertical: 30,
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
   appTitle: {
     fontSize: 32,
     fontWeight: 'bold',
+    marginBottom: 5,
   },
   caption: {
     fontSize: 16,
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    fontWeight: 'semibold',
+    fontWeight: '400',
     color: 'white',
     marginBottom: 9,
   },  
