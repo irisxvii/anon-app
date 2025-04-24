@@ -27,77 +27,68 @@ export default function RootLayout() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000000' }}>
-    <ThemeProvider value={DarkTheme}>
-      <Stack 
-        screenOptions={{ 
-          headerShown: false,
-          animation: 'slide_from_right',
-          animationDuration: 300,
-          gestureEnabled: true,
-          gestureDirection: 'horizontal',
-          fullScreenGestureEnabled: true,
-        }}
-      >
-        <Stack.Screen 
-          name="roleSelection" 
-          options={{ 
-            animation: 'fade',
-            animationDuration: 400,
-          }} 
-        />
-        <Stack.Screen 
-          name="(tabs)" 
-          options={{
-            animation: 'slide_from_right',
-            animationDuration: 300,
+      <ThemeProvider value={DarkTheme}>
+        <Stack 
+          screenOptions={{ 
+            headerShown: false,
+            animation: 'none',
+            gestureEnabled: true,
+            gestureDirection: 'horizontal',
+            fullScreenGestureEnabled: true,
           }}
-        />
-        <Stack.Screen 
-          name="screens/report" 
-          options={{
-            animation: 'slide_from_right',
-            animationDuration: 300,
-            presentation: 'modal',
-          }}
-        />
-        <Stack.Screen 
-          name="screens/detail" 
-          options={{
-            animation: 'slide_from_right',
-            animationDuration: 300,
-          }}
-        />
-        <Stack.Screen 
-          name="screens/thankyou" 
-          options={{
-            animation: 'fade',
-            animationDuration: 400,
-          }}
-        />
-        <Stack.Screen 
-          name="adminLogin" 
-          options={{
-            animation: 'slide_from_right',
-            animationDuration: 300,
-          }}
-        />
-        <Stack.Screen 
-          name="adminDashboard" 
-          options={{
-            animation: 'slide_from_right',
-            animationDuration: 300,
-          }}
-        />
-        <Stack.Screen 
-          name="+not-found" 
-          options={{
-            animation: 'fade',
-            animationDuration: 300,
-          }}
-        />
-      </Stack>
-      <StatusBar style="light" />
-    </ThemeProvider>
+        >
+          <Stack.Screen 
+            name="roleSelection" 
+            options={{ 
+              animation: 'none',
+            }} 
+          />
+          <Stack.Screen 
+            name="(tabs)" 
+            options={{
+              animation: 'none',
+            }}
+          />
+          <Stack.Screen 
+            name="screens/report" 
+            options={{
+              animation: 'none',
+              presentation: 'modal',
+            }}
+          />
+          <Stack.Screen 
+            name="screens/detail" 
+            options={{
+              animation: 'none',
+            }}
+          />
+          <Stack.Screen 
+            name="screens/thankyou" 
+            options={{
+              animation: 'none',
+            }}
+          />
+          <Stack.Screen 
+            name="adminLogin" 
+            options={{
+              animation: 'none',
+            }}
+          />
+          <Stack.Screen 
+            name="adminDashboard" 
+            options={{
+              animation: 'none',
+            }}
+          />
+          <Stack.Screen 
+            name="+not-found" 
+            options={{
+              animation: 'none',
+            }}
+          />
+        </Stack>
+        <StatusBar style="light" />
+      </ThemeProvider>
     </View>
   );
 }

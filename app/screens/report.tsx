@@ -1,10 +1,14 @@
-import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
-import { Pill, Shield, Eye, CircleAlert } from 'lucide-react-native';
+import { CircleAlert, Eye, Pill, Shield } from 'lucide-react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
+import { CustomTransition } from '@/components/CustomTransition';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ReportCategory } from '@/hooks/useReport';
 import { useRouter } from 'expo-router';
+
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function ReportScreen() {
   const router = useRouter();
@@ -17,45 +21,59 @@ export default function ReportScreen() {
   };
 
   return (
-
+    <CustomTransition >
       <ThemedView style={styles.mainContainer}>
-        <ThemedText type="title" style={styles.appTitle}>
-          Select Category
-        </ThemedText>
-        <ThemedText style={styles.caption}>
-          Choose the type of incident to report
-        </ThemedText>
-
-      <View style={styles.buttonsGrid}>
-        <TouchableOpacity style={styles.buttonOutlined}
-          onPress={() => handleCategorySelect('Drug Related')}
+        <Animated.View 
+          entering={FadeIn.delay(200)}
+          style={styles.headerContainer}
         >
-          <Pill size={38} color="white" />
-          <Text style={styles.buttonTextOutlined}>Drug{'\n'}Related</Text>
-        </TouchableOpacity>
+          <ThemedText type="title" style={styles.appTitle}>
+            Select Category
+          </ThemedText>
+          <ThemedText style={styles.caption}>
+            Choose the type of incident to report
+          </ThemedText>
+        </Animated.View>
 
-        <TouchableOpacity style={styles.buttonOutlined}
-          onPress={() => handleCategorySelect('Abuse Cases')}
-        >
-          <Shield size={39} color="white" />
-          <Text style={styles.buttonTextOutlined}>Abuse{'\n'}Cases</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonsGrid}>
+          <AnimatedTouchableOpacity 
+            style={styles.buttonOutlined}
+            onPress={() => handleCategorySelect('Drug Related')}
+            entering={FadeIn.delay(300)}
+          >
+            <Pill size={38} color="white" />
+            <Text style={styles.buttonText}>{'Drug\nRelated'}</Text>
+          </AnimatedTouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonOutlined}
-          onPress={() => handleCategorySelect('Suspicious Activity')}
-        >
-          <Eye size={39} color="white" />
-          <Text style={styles.buttonTextOutlined}>Suspicious Activity</Text>
-        </TouchableOpacity>
+          <AnimatedTouchableOpacity 
+            style={styles.buttonOutlined}
+            onPress={() => handleCategorySelect('Abuse Cases')}
+            entering={FadeIn.delay(400)}
+          >
+            <Shield size={39} color="white" />
+            <Text style={styles.buttonText}>{'Abuse\nCases'}</Text>
+          </AnimatedTouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonOutlined}
-          onPress={() => handleCategorySelect('Other Issues')}
-        >
-          <CircleAlert size={39} color="white" />
-          <Text style={styles.buttonTextOutlined}>Other{'\n'}Issues</Text>
-        </TouchableOpacity>
+          <AnimatedTouchableOpacity 
+            style={styles.buttonOutlined}
+            onPress={() => handleCategorySelect('Suspicious Activity')}
+            entering={FadeIn.delay(500)}
+          >
+            <Eye size={39} color="white" />
+            <Text style={styles.buttonText}>Suspicious Activity</Text>
+          </AnimatedTouchableOpacity>
+
+          <AnimatedTouchableOpacity 
+            style={styles.buttonOutlined}
+            onPress={() => handleCategorySelect('Other Issues')}
+            entering={FadeIn.delay(600)}
+          >
+            <CircleAlert size={39} color="white" />
+            <Text style={styles.buttonText}>{'Other\nIssues'}</Text>
+          </AnimatedTouchableOpacity>
         </View>
       </ThemedView>
+    </CustomTransition>
   );
 }
 
@@ -66,6 +84,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 15,
   },
+  headerContainer: {
+    alignItems: 'center',
+  },
   appTitle: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -73,18 +94,16 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 16,
     opacity: 0.7,
-    marginTop: -12,
   },
   buttonsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 15,
+    gap: 10,
   },
   buttonOutlined: {
     width: '40%',
     borderColor: 'white',
-    opacity: 0.8,
     borderWidth: 2,
     paddingVertical: 18,
     paddingHorizontal: 8,
@@ -92,10 +111,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 5,
+    gap: 8,
   },
-  
-  buttonTextOutlined: {
+  buttonText: {
     color: 'white',
     textAlign: 'center',
     fontSize: 16,
