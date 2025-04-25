@@ -42,7 +42,9 @@ export default function ReportScreen() {
             onPress={() => handleCategorySelect('Drug Related')}
             entering={FadeIn.delay(300)}
           >
-            <Pill size={38} color="white" />
+            <View style={styles.iconContainer}>
+              <Pill size={32} color="white" />
+            </View>
             <Text style={styles.buttonText}>{'Drug\nRelated'}</Text>
           </AnimatedTouchableOpacity>
 
@@ -51,7 +53,9 @@ export default function ReportScreen() {
             onPress={() => handleCategorySelect('Abuse Cases')}
             entering={FadeIn.delay(400)}
           >
-            <Shield size={39} color="white" />
+            <View style={styles.iconContainer}>
+              <Shield size={32} color="white" />
+            </View>
             <Text style={styles.buttonText}>{'Abuse\nCases'}</Text>
           </AnimatedTouchableOpacity>
 
@@ -60,7 +64,9 @@ export default function ReportScreen() {
             onPress={() => handleCategorySelect('Suspicious Activity')}
             entering={FadeIn.delay(500)}
           >
-            <Eye size={39} color="white" />
+            <View style={styles.iconContainer}>
+              <Eye size={32} color="white" />
+            </View>
             <Text style={styles.buttonText}>Suspicious Activity</Text>
           </AnimatedTouchableOpacity>
 
@@ -69,7 +75,9 @@ export default function ReportScreen() {
             onPress={() => handleCategorySelect('Other Issues')}
             entering={FadeIn.delay(600)}
           >
-            <CircleAlert size={39} color="white" />
+            <View style={styles.iconContainer}>
+              <CircleAlert size={32} color="white" />
+            </View>
             <Text style={styles.buttonText}>{'Other\nIssues'}</Text>
           </AnimatedTouchableOpacity>
         </View>
@@ -96,6 +104,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
+    marginBottom: 10,
   },
   appTitle: {
     fontSize: 32,
@@ -104,12 +113,14 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 16,
     opacity: 0.7,
+    textAlign: 'center',
+    marginTop: 3,
   },
   buttonsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 10,
+    gap: 15,
   },
   buttonOutlined: {
     width: '40%',
@@ -122,6 +133,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
+  },
+  iconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
     color: 'white',
