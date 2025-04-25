@@ -51,6 +51,7 @@ export default function MyReports() {
 
     return (
         <ThemedView style={styles.mainContainer}>
+            <View style={styles.background} />
             <ThemedText type="title" style={styles.appTitle}>
                 My Reports
             </ThemedText>
@@ -126,6 +127,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingTop: 60,
     flex: 1,
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: '#10B77F',
+    opacity: 0.1,
   },
   appTitle: {
     fontSize: 32,

@@ -50,6 +50,7 @@ export default function ReportDetailScreen() {
 
   return (
       <ThemedView style={styles.mainContainer}>
+        <View style={styles.background} />
         <ScrollView contentContainerStyle={styles.scrollContainer}showsVerticalScrollIndicator={false}>
         <Animated.View entering={FadeIn.delay(100)}>
         <ThemedText type="title" style={styles.appTitle}>
@@ -127,9 +128,17 @@ export default function ReportDetailScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingTop: 70,
+    paddingTop: 80,
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: '#10B77F',
+    opacity: 0.1,
   },
   scrollContainer: {
     paddingVertical: 30,

@@ -23,6 +23,7 @@ export default function ReportScreen() {
   return (
     <CustomTransition >
       <ThemedView style={styles.mainContainer}>
+        <View style={styles.background} />
         <Animated.View 
           entering={FadeIn.delay(200)}
           style={styles.headerContainer}
@@ -83,6 +84,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 15,
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: '#10B77F',
+    opacity: 0.1,
   },
   headerContainer: {
     alignItems: 'center',
