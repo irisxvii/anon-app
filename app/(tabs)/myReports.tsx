@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeIn, FadeInDown, Layout } from 'react-native-reanimated';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -18,6 +19,8 @@ const formatDate = (date: Date | Timestamp) => {
     return date.toLocaleDateString();
 };
 
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+
 export default function MyReports() {
     const router = useRouter();
     const { reports, loading, error } = useFetchReports();
@@ -33,7 +36,8 @@ export default function MyReports() {
     if (loading) {
         return (
             <ThemedView style={styles.mainContainer}>
-                <ActivityIndicator size="large" color="#10B77F" />
+                <View style={styles.background} />
+                <ActivityIndicator size="large" color="white" />
             </ThemedView>
         );
     }
@@ -41,6 +45,7 @@ export default function MyReports() {
     if (error) {
         return (
             <ThemedView style={styles.mainContainer}>
+                <View style={styles.background} />
                 <ThemedText style={styles.errorText}>Error loading reports: {error}</ThemedText>
             </ThemedView>
         );
@@ -52,24 +57,37 @@ export default function MyReports() {
     return (
         <ThemedView style={styles.mainContainer}>
             <View style={styles.background} />
-            <ThemedText type="title" style={styles.appTitle}>
-                My Reports
-            </ThemedText>
-            <ThemedText style={styles.caption}>
-                Track the status of your reports
-            </ThemedText>
-            <ScrollView style={styles.scrollView}>
-            {validReports.length === 0 ? (
-                <ThemedText style={styles.noReportsText}>
-                    No reports submitted yet
+            <Animated.View 
+                entering={FadeIn.delay(200)}
+                style={styles.headerContainer}
+            >
+                <ThemedText type="title" style={styles.appTitle}>
+                    My Reports
                 </ThemedText>
-            ) : (
-                validReports.map((report) => (
-                    <TouchableOpacity 
-                        key={report.id} 
-                        onPress={() => toggleExpand(report.id)}
+                <ThemedText style={styles.caption}>
+                    Track the status of your reports
+                </ThemedText>
+            </Animated.View>
+
+            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+                {validReports.length === 0 ? (
+                    <Animated.View 
+                        entering={FadeInDown.delay(300)}
+                        style={styles.noReportsContainer}
                     >
-                        <View style={styles.reportBox}>
+                        <ThemedText style={styles.noReportsText}>
+                            No reports submitted yet
+                        </ThemedText>
+                    </Animated.View>
+                ) : (
+                    validReports.map((report, index) => (
+                        <AnimatedTouchableOpacity 
+                            key={report.id}
+                            entering={FadeInDown.delay(300 + index * 100)}
+                            layout={Layout.springify()}
+                            style={styles.reportBox}
+                            onPress={() => toggleExpand(report.id)}
+                        >
                             <View style={styles.reportHeader}>
                                 <Text style={styles.reportTitle}>{report.category}</Text>
                                 <Text style={[
@@ -79,6 +97,7 @@ export default function MyReports() {
                                     {report.status}
                                 </Text>
                             </View>
+                            
                             <Text style={styles.reportDescription}>
                                 {expandedReports[report.id] 
                                     ? report.description 
@@ -87,7 +106,10 @@ export default function MyReports() {
                                         : report.description}
                             </Text>
                             {expandedReports[report.id] && (
-                                <View style={styles.detailsContainer}>
+                                <Animated.View 
+                                    entering={FadeIn.delay(100)}
+                                    style={styles.detailsContainer}
+                                >
                                     <View style={styles.detailRow}>
                                         <View style={styles.detailLabelContainer}>
                                             <Text style={styles.detailLabel}>Location:</Text>
@@ -96,7 +118,7 @@ export default function MyReports() {
                                     </View>
                                     <View style={styles.detailRow}>
                                         <View style={styles.detailLabelContainer}>
-                                            <Text style={styles.detailLabel}>Date & Time of Incident:</Text>
+                                            <Text style={styles.detailLabel}>Date & Time:</Text>
                                         </View>
                                         <Text style={styles.detailValue}>{report.date}</Text>
                                     </View>
@@ -108,15 +130,14 @@ export default function MyReports() {
                                             <Text style={styles.detailValue}>{report.vehicle}</Text>
                                         </View>
                                     )}
-                                </View>
+                                </Animated.View>
                             )}
                             <Text style={styles.reportDate}>
                                 Reported on: {formatDate(report.createdAt)}
                             </Text>
-                        </View>
-                    </TouchableOpacity>
-                ))
-            )}
+                        </AnimatedTouchableOpacity>
+                    ))
+                )}
             </ScrollView>
         </ThemedView>
     );
@@ -124,7 +145,7 @@ export default function MyReports() {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    paddingHorizontal: 25,
+    paddingHorizontal: 20,
     paddingTop: 60,
     flex: 1,
   },
@@ -137,28 +158,46 @@ const styles = StyleSheet.create({
     backgroundColor: '#10B77F',
     opacity: 0.1,
   },
+  headerContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+},
   appTitle: {
     fontSize: 32,
     fontWeight: 'bold',
+    color: 'white',
   },
   caption: {
     fontSize: 16,
     opacity: 0.7,
-    marginBottom: 8,
+    marginTop: 8,
+    color: 'white',
   },  
+  scrollView: {
+    flex: 1,
+},
+noReportsContainer: {
+    alignItems: 'center',
+    marginTop: 40,
+},
+noReportsText: {
+    fontSize: 16,
+    opacity: 0.7,
+    color: 'white',
+  },
   reportBox: {
-    backgroundColor: '#333',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     padding: 15,
-    borderRadius: 10,
-    borderWidth: .5, 
-    borderColor: '#ddd', 
-    marginTop: 14,
-    gap: 7,
+    borderRadius: 12,
+    borderWidth: 1, 
+    borderColor: 'rgba(255, 255, 255, 0.1)', 
+    marginBottom: 15,
   },
   reportHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 10,
   },
   reportTitle: {
     fontSize: 18,
@@ -172,31 +211,24 @@ const styles = StyleSheet.create({
   reportDescription: {
     fontSize: 15,
     color: 'white',
+    opacity: 0.9,
+    marginBottom: 10,
   },
   reportDate: {
     fontSize: 13,
-    color: '#777',
+    color: 'rgba(255, 255, 255, 0.5)',
+    marginTop: 10,
   },
   errorText: {
     color: 'red',
     textAlign: 'center',
     marginTop: 20,
 },
-noReportsText: {
-    textAlign: 'center',
-    marginTop: 20,
-    fontSize: 16,
-    opacity: 0.7,
-},
-scrollView: {
-    flex: 1,
-    marginBottom: 10,
-},
 detailsContainer: {
     marginTop: 10,
     paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: '#444',
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
     gap: 8,
 },
 detailRow: {
@@ -208,7 +240,7 @@ detailLabelContainer: {
 },
 detailLabel: {
     fontSize: 14,
-    color: '#999',
+    color: 'rgba(255, 255, 255, 0.6)',
     fontWeight: '500',
 },
 detailValue: {
