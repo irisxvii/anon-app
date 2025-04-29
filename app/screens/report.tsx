@@ -1,6 +1,6 @@
 import { CircleAlert, Eye, Pill, Shield, ArrowRight } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useState } from 'react';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -31,7 +31,7 @@ export default function ReportScreen() {
       <ThemedView style={styles.mainContainer}>
         <View style={styles.background} />
         <Animated.View 
-          entering={FadeInDown.delay(200)}
+          entering={FadeInDown.delay(200).springify()}
           style={styles.headerContainer}
         >
           <ThemedText type="title" style={styles.appTitle}>
@@ -46,7 +46,7 @@ export default function ReportScreen() {
           <AnimatedTouchableOpacity 
             style={[styles.buttonOutlined, selectedCategory === 'Drug Related' && styles.buttonSelected]}
             onPress={() => handleCategorySelect('Drug Related')}
-            entering={FadeIn.delay(300)}
+            entering={FadeInUp.delay(300).springify()}
           >
             <View style={styles.iconContainer}>
               <Pill size={32} color="white" />
@@ -57,7 +57,7 @@ export default function ReportScreen() {
           <AnimatedTouchableOpacity 
             style={[styles.buttonOutlined, selectedCategory === 'Abuse Cases' && styles.buttonSelected]}
             onPress={() => handleCategorySelect('Abuse Cases')}
-            entering={FadeIn.delay(400)}
+            entering={FadeInUp.delay(400).springify()}
           >
             <View style={styles.iconContainer}>
               <Shield size={32} color="white" />
@@ -68,7 +68,7 @@ export default function ReportScreen() {
           <AnimatedTouchableOpacity 
             style={[styles.buttonOutlined, selectedCategory === 'Suspicious Activity' && styles.buttonSelected]}
             onPress={() => handleCategorySelect('Suspicious Activity')}
-            entering={FadeIn.delay(500)}
+            entering={FadeInUp.delay(500).springify()}
           >
             <View style={styles.iconContainer}>
               <Eye size={32} color="white" />
@@ -79,7 +79,7 @@ export default function ReportScreen() {
           <AnimatedTouchableOpacity 
             style={[styles.buttonOutlined, selectedCategory === 'Other Issues' && styles.buttonSelected]}
             onPress={() => handleCategorySelect('Other Issues')}
-            entering={FadeIn.delay(600)}
+            entering={FadeInUp.delay(600).springify()}
           >
             <View style={styles.iconContainer}>
               <CircleAlert size={32} color="white" />
@@ -89,7 +89,7 @@ export default function ReportScreen() {
         </View>
 
         <Animated.View 
-          entering={FadeInUp.delay(700)}
+          entering={FadeInUp.delay(700).springify()}
           style={styles.nextButtonContainer}
         >
           <TouchableOpacity 
