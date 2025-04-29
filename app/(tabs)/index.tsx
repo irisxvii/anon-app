@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
   appTitle: {
     fontSize: 48,
     fontWeight: 'bold',
-    marginTop: 10,
   },
   subtitle: {
     fontSize: 18,
@@ -131,8 +130,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 20,
-    gap: 25,
-    marginTop: 40,
+    gap: 20,
+    marginTop: 30,
   },
   caption: {
     textAlign: 'center',
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: 10,
-    marginBottom: 20,
+    marginBottom: 15,
   },
   featureItem: {
     alignItems: 'center',
@@ -159,13 +158,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(16, 183, 127, 0.1)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   featureTitle: {
     fontSize: 14,
     fontWeight: '600',
     color: '#10B77F',
-    marginBottom: 4,
+    marginBottom: 2,
   },
   featureText: {
     fontSize: 12,
