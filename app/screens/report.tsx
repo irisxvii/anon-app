@@ -1,6 +1,7 @@
-import { CircleAlert, Eye, Pill, Shield } from 'lucide-react-native';
+import { CircleAlert, Eye, Pill, Shield, ArrowRight } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
+import { useState } from 'react';
 
 import { CustomTransition } from '@/components/CustomTransition';
 import { ThemedText } from '@/components/ThemedText';
@@ -12,12 +13,19 @@ const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpaci
 
 export default function ReportScreen() {
   const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState<ReportCategory | null>(null);
 
   const handleCategorySelect = (category: ReportCategory) => {
-    router.push({
-      pathname: '/screens/detail',
-      params: { category }
-    });
+    setSelectedCategory(category);
+  };
+
+  const handleNext = () => {
+    if (selectedCategory) {
+      router.push({
+        pathname: '/screens/detail',
+        params: { category: selectedCategory }
+      });
+    }
   };
 
   return (
@@ -38,7 +46,7 @@ export default function ReportScreen() {
 
         <View style={styles.buttonsGrid}>
           <AnimatedTouchableOpacity 
-            style={styles.buttonOutlined}
+            style={[styles.buttonOutlined, selectedCategory === 'Drug Related' && styles.buttonSelected]}
             onPress={() => handleCategorySelect('Drug Related')}
             entering={FadeIn.delay(300)}
           >
@@ -49,7 +57,7 @@ export default function ReportScreen() {
           </AnimatedTouchableOpacity>
 
           <AnimatedTouchableOpacity 
-            style={styles.buttonOutlined}
+            style={[styles.buttonOutlined, selectedCategory === 'Abuse Cases' && styles.buttonSelected]}
             onPress={() => handleCategorySelect('Abuse Cases')}
             entering={FadeIn.delay(400)}
           >
@@ -60,7 +68,7 @@ export default function ReportScreen() {
           </AnimatedTouchableOpacity>
 
           <AnimatedTouchableOpacity 
-            style={styles.buttonOutlined}
+            style={[styles.buttonOutlined, selectedCategory === 'Suspicious Activity' && styles.buttonSelected]}
             onPress={() => handleCategorySelect('Suspicious Activity')}
             entering={FadeIn.delay(500)}
           >
@@ -71,7 +79,7 @@ export default function ReportScreen() {
           </AnimatedTouchableOpacity>
 
           <AnimatedTouchableOpacity 
-            style={styles.buttonOutlined}
+            style={[styles.buttonOutlined, selectedCategory === 'Other Issues' && styles.buttonSelected]}
             onPress={() => handleCategorySelect('Other Issues')}
             entering={FadeIn.delay(600)}
           >
@@ -81,6 +89,20 @@ export default function ReportScreen() {
             <Text style={styles.buttonText}>{'Other\nIssues'}</Text>
           </AnimatedTouchableOpacity>
         </View>
+
+        <Animated.View 
+          entering={FadeIn.delay(700)}
+          style={styles.nextButtonContainer}
+        >
+          <TouchableOpacity 
+            style={[styles.nextButton, !selectedCategory && styles.nextButtonDisabled]}
+            onPress={handleNext}
+            disabled={!selectedCategory}
+          >
+            <Text style={styles.nextButtonText}>Next</Text>
+            <ArrowRight size={20} color="black" />
+          </TouchableOpacity>
+        </Animated.View>
       </ThemedView>
     </CustomTransition>
   );
@@ -134,6 +156,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 12,
   },
+  buttonSelected: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+  },
   iconContainer: {
     width: 50,
     height: 50,
@@ -147,6 +173,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '500',
+  },
+  nextButtonContainer: {
+    width: '94%',
+    paddingHorizontal: 20,
+    marginTop: 15,
+  },
+  nextButton: {
+    backgroundColor: '#10B77F',
+    paddingVertical: 16,
+    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  nextButtonDisabled: {
+    opacity: 0.5,
+  },
+  nextButtonText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
