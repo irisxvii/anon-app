@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 import Animated, { FadeIn, FadeInDown, Layout } from 'react-native-reanimated';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     paddingHorizontal: 20,
     paddingTop: 60,
+    paddingBottom: Platform.OS === 'ios' ? 90 : 70,
     flex: 1,
   },
   background: {
