@@ -2,7 +2,8 @@ import { auth } from '@/FirebaseConfig';
 import { useRouter } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -60,18 +61,39 @@ export default function AdminLoginScreen() {
 
   return (
     <ThemedView style={styles.mainContainer}>
-      <ThemedText type="title" style={styles.appTitle}>
-        Admin Login
-      </ThemedText>
+      <View style={styles.background} />
+      
+      <Animated.View 
+        entering={FadeIn.duration(400)}
+        style={styles.contentContainer}
+      >
+        <View style={styles.headerContainer}>
+          <View style={styles.logoContainer}>
+            <Image 
+              source={require('@/assets/images/icoon.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
+          <ThemedText type="title" style={styles.appTitle}>
+            Admin Login
+          </ThemedText>
+        </View>
 
-      {error ? (
-        <Text style={styles.errorText}>{error}</Text>
-      ) : null}
+      <View style={styles.formContainer}>
+        {error ? (
+          <Animated.View 
+            entering={FadeIn}
+            style={styles.errorContainer}
+          >
+            <Text style={styles.errorText}>{error}</Text>
+          </Animated.View>
+        ) : null}
 
       <TextInput
         style={styles.input}
         placeholder="Email"
-        placeholderTextColor="#999"
+        placeholderTextColor="#rgba(255, 255, 255, 0.5)"
         keyboardType="email-address"
         autoCapitalize="none"
         value={email}
@@ -84,7 +106,7 @@ export default function AdminLoginScreen() {
       <TextInput
         style={styles.input}
         placeholder="Password"
-        placeholderTextColor="#999"
+        placeholderTextColor="#rgba(255, 255, 255, 0.5)"
         secureTextEntry
         value={password}
         onChangeText={(text) => {
@@ -93,17 +115,19 @@ export default function AdminLoginScreen() {
         }}
       />
 
-      <TouchableOpacity 
-        style={[styles.buttonFilled, loading && styles.buttonDisabled]} 
-        onPress={handleLogin}
-        disabled={loading}
-      >
-        {loading ? (
-          <ActivityIndicator color="#000" />
-        ) : (
-          <Text style={styles.buttonTextFilled}>Login</Text>
-        )}
-      </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.buttonFilled, loading && styles.buttonDisabled]} 
+            onPress={handleLogin}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#000" />
+            ) : (
+              <Text style={styles.buttonTextFilled}>Login</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
     </ThemedView>
   );
 }
@@ -111,33 +135,78 @@ export default function AdminLoginScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    alignItems: 'center',
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: '#10B77F',
+    opacity: 0.1,
+  },
+  contentContainer: {
+    flex: 1,
     justifyContent: 'center',
-    gap: 10,
+    alignItems: 'center',
     paddingHorizontal: 25,
   },
+  headerContainer: {
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 25,
+  },
+  logoContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(16, 183, 127, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
+  logo: {
+    width: 48,
+    height: 48,
+  },
   appTitle: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: 10,
+  },
+  formContainer: {
+    width: '100%',
+    maxWidth: 400,
+    gap: 15,
+  },
+  errorContainer: {
+    backgroundColor: 'rgba(255, 68, 68, 0.1)',
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 68, 68, 0.2)',
+  },
+  errorText: {
+    color: '#ff4444',
+    textAlign: 'center',
+    fontSize: 14,
   },
   input: {
-    width: '90%',
+    width: '100%',
     borderWidth: 1,
-    borderColor: '#ccc',
-    paddingVertical: 10,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    paddingVertical: 12,
     paddingHorizontal: 15,
     borderRadius: 12,
     fontSize: 16,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     color: 'white',
-    marginBottom: 10,
   },
   buttonFilled: {
-    width: '90%',
+    width: '100%',
     backgroundColor: '#10B77F',
-    paddingVertical: 12,
+    paddingVertical: 16,
     borderRadius: 12,
+    marginTop: 10,
   },
   buttonDisabled: {
     opacity: 0.7,
@@ -147,10 +216,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '600',
-  },
-  errorText: {
-    color: '#ff4444',
-    marginBottom: 10,
-    textAlign: 'center',
   },
 });
