@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import {StyleSheet, TouchableOpacity, Text } from 'react-native';
+import {StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
 import LottieView from 'lottie-react-native';
 
@@ -10,6 +10,7 @@ export default function HomeScreen() {
   const router = useRouter();
   return (
     <ThemedView style={styles.mainContainer}>
+      <View style={styles.background} />
       <LottieView 
         source={require('@/assets/animations/tickk.json')} 
         autoPlay 
@@ -41,6 +42,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 15,
+    paddingHorizontal: 20,
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: '#10B77F',
+    opacity: 0.1,
   },
    tickAnimation: {
     width: 120,
@@ -56,23 +67,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     opacity: 0.7,
     paddingHorizontal: 20,
+    marginBottom: 20,
   },
   
   buttonFilled: {
-    width: '80%',
+    width: '100%',
     backgroundColor: '#10B77F',
     paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
+    borderRadius: 12,
   },
 
   buttonOutlined: {
-    width: '80%',
+    width: '100%',
     borderColor: '#10B77F',
     borderWidth: 2,
     paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
+    borderRadius: 12,
     backgroundColor: 'transparent',
   },  
 
