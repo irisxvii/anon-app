@@ -70,20 +70,18 @@ const styles = StyleSheet.create({
   },
   
   buttonFilled: {
-    width: '80%',
+    width: '100%',
     backgroundColor: '#10B77F',
     paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
+    borderRadius: 12,
   },
 
   buttonOutlined: {
-    width: '80%',
+    width: '100%',
     borderColor: '#10B77F',
     borderWidth: 2,
     paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
+    borderRadius: 12,
     backgroundColor: 'transparent',
   },  
 

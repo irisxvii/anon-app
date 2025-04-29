@@ -16,7 +16,7 @@ export default function ReportScreen() {
   const [selectedCategory, setSelectedCategory] = useState<ReportCategory | null>(null);
 
   const handleCategorySelect = (category: ReportCategory) => {
-    setSelectedCategory(category);
+    setSelectedCategory(selectedCategory === category ? null : category);
   };
 
   const handleNext = () => {
@@ -157,8 +157,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   buttonSelected: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderColor: '#10B77F',
+    borderWidth: 1,
+    transform: [{ scale: 1.02 }],
   },
   iconContainer: {
     width: 50,
