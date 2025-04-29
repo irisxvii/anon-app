@@ -1,9 +1,8 @@
 import { CircleAlert, Eye, Pill, Shield, ArrowRight } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useState } from 'react';
 
-import { CustomTransition } from '@/components/CustomTransition';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ReportCategory } from '@/hooks/useReport';
@@ -29,11 +28,10 @@ export default function ReportScreen() {
   };
 
   return (
-    <CustomTransition >
       <ThemedView style={styles.mainContainer}>
         <View style={styles.background} />
         <Animated.View 
-          entering={FadeIn.delay(200)}
+          entering={FadeInDown.delay(200)}
           style={styles.headerContainer}
         >
           <ThemedText type="title" style={styles.appTitle}>
@@ -91,7 +89,7 @@ export default function ReportScreen() {
         </View>
 
         <Animated.View 
-          entering={FadeIn.delay(700)}
+          entering={FadeInUp.delay(700)}
           style={styles.nextButtonContainer}
         >
           <TouchableOpacity 
@@ -104,7 +102,6 @@ export default function ReportScreen() {
           </TouchableOpacity>
         </Animated.View>
       </ThemedView>
-    </CustomTransition>
   );
 }
 
