@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     opacity: 0.7,
     paddingHorizontal: 20,
+    marginBottom: 20,
   },
   
   buttonFilled: {
