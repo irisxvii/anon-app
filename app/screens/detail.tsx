@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 50,
   },
   background: {
     position: 'absolute',
