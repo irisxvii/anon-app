@@ -8,6 +8,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useFetchReports } from '@/hooks/useFetchReports';
 import { ReportData } from '@/hooks/useReport';
+import { useAuth } from '@/hooks/useAuth';
 
 // Make id required for the reports list
 type ReportWithId = ReportData & { id: string };
@@ -23,7 +24,8 @@ const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpaci
 
 export default function MyReports() {
     const router = useRouter();
-    const { reports, loading, error } = useFetchReports();
+    const { user } = useAuth();
+    const { reports, loading, error } = useFetchReports(user?.uid);
     const [expandedReports, setExpandedReports] = useState<{ [key: string]: boolean }>({});
 
     const toggleExpand = (reportId: string) => {

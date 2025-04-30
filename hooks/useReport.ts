@@ -14,13 +14,14 @@ export interface ReportData {
   vehicle?: string;
   status: ReportStatus;
   createdAt: Date | Timestamp;
+  userId: string;
 }
 
 export const useReport = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const submitReport = async (data: Omit<ReportData, 'status' | 'createdAt' | 'id'>) => {
+  const submitReport = async (data: Omit<ReportData, 'status' | 'createdAt' | 'id' | 'userId'>, userId: string) => {
     console.log('starting submission');
     try {
       setIsSubmitting(true);
@@ -30,6 +31,7 @@ export const useReport = () => {
         ...data,
         status: 'pending',
         createdAt: Timestamp.now(),
+        userId,
       };
 
       console.log('attempting to add doc to firestore');

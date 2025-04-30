@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeInUp, withSpring } from 'react-native-reanimated';
+import { useAuth } from '@/hooks/useAuth';
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
@@ -13,6 +14,7 @@ export default function ReportDetailScreen() {
   const router = useRouter();
   const { category } = useLocalSearchParams<{ category: ReportCategory }>();
   const { submitReport, isSubmitting, error } = useReport();
+  const { user, signIn } = useAuth();
   
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -27,6 +29,12 @@ export default function ReportDetailScreen() {
     }
 
     try {
+      // Ensure user is authenticated
+      if (!user) {
+        const newUser = await signIn();
+        if (!newUser) throw new Error('Failed to authenticate');
+      }
+
       console.log('Submitting report with data:', {
         category,
         description,
@@ -41,7 +49,7 @@ export default function ReportDetailScreen() {
         location,
         date,
         ...(vehicle ? { vehicle } : {}),
-      });
+      }, user?.uid || '');
 
       console.log('Report submitted successfully');
       router.push('/screens/thankyou');
