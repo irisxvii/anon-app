@@ -68,13 +68,13 @@ export default function RoleSelectionScreen() {
               style={styles.buttonContent}
             >
               <View style={styles.iconContainer}>
-                <Shield size={24} color="black" />
+                <Shield size={24} color="white" />
               </View>
               <View style={styles.textContainer}>
                 <Text style={styles.buttonTextFilled}>Admin Login</Text>
                 <Text style={styles.buttonSubtext}>Manage and review reports</Text>
               </View>
-              <ArrowRight size={20} color="black" />
+              <ArrowRight size={20} color="white" />
             </Animated.View>
           </TouchableOpacity>
         </View>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: 'rgba(16, 183, 127, 0.1)',
+    backgroundColor: 'rgba(16, 183, 127, 0.05)',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
@@ -139,9 +139,11 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: 16,
     padding: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   buttonTextFilled: {
-    color: 'black',
+    color: 'white',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -195,19 +197,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     opacity: 0.7,
     marginTop: 2,
+    color: 'white',
   },
   divider: {
     height: 1,
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     marginVertical: 12,
   },
   infoBox: {
     width: '100%',
-    backgroundColor: 'rgba(16, 183, 127, 0.05)',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     padding: 16,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(16, 183, 127, 0.1)',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   infoText: {
     fontSize: 14,

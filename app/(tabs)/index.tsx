@@ -175,11 +175,11 @@ const styles = StyleSheet.create({
   buttonOutlined: {
     width: '95%',
     borderColor: '#10B77F',
-    borderWidth: 2,
+    borderWidth: 1,
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 12,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
