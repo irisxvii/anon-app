@@ -3,7 +3,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { ReportCategory, useReport } from '@/hooks/useReport';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeInUp, withSpring } from 'react-native-reanimated';
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
@@ -20,6 +20,12 @@ export default function ReportDetailScreen() {
   const [vehicle, setVehicle] = useState('');
 
   const handleSubmit = async () => {
+    // Dismiss keyboard first and wait for it to complete
+    Keyboard.dismiss();
+    
+    // Add a small delay to ensure keyboard is fully dismissed
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     console.log('Starting submission..');
     if (!description || !location || !date) {
       Alert.alert('Error', 'Please fill in all required fields');
@@ -54,7 +60,11 @@ export default function ReportDetailScreen() {
   return (
     <ThemedView style={styles.mainContainer}>
       <View style={styles.background} />
-      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer} 
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         <Animated.View entering={FadeInDown.delay(200).springify()}>
           <ThemedText type="title" style={styles.appTitle}>
             Report Details
