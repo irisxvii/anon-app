@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { db } from '../FirebaseConfig';
 
 export type ReportCategory = 'Drug Related' | 'Abuse Cases' | 'Suspicious Activity' | 'Other Issues';
-export type ReportStatus = 'pending' | 'resolved';
+export type ReportStatus = 'Pending' | 'Reviewed';
 
 export interface ReportData {
   id?: string;
@@ -28,7 +28,7 @@ export const useReport = () => {
 
       const reportData: Omit<ReportData, 'id'> = {
         ...data,
-        status: 'pending',
+        status: 'Pending',
         createdAt: Timestamp.now(),
       };
 

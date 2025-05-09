@@ -38,7 +38,7 @@ export default function HomeScreen() {
         style={styles.contentContainer}
       >
         <ThemedText style={styles.caption}>
-          Help keep our campus safe by reporting concerns anonymously. Your voice matters!
+          Help keep our community safe by reporting concerns anonymously.
         </ThemedText>
 
         <View style={styles.featuresContainer}>

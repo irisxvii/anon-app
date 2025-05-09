@@ -3,6 +3,7 @@ import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 import Animated, { FadeIn, FadeInDown, Layout } from 'react-native-reanimated';
+import { ChevronDown } from 'lucide-react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -14,9 +15,10 @@ type ReportWithId = ReportData & { id: string };
 
 const formatDate = (date: Date | Timestamp) => {
     if (date instanceof Timestamp) {
-        return date.toDate().toLocaleDateString();
+        const d = date.toDate();
+        return `${d.toLocaleDateString()} at ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     }
-    return date.toLocaleDateString();
+    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 };
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
@@ -90,12 +92,22 @@ export default function MyReports() {
                         >
                             <View style={styles.reportHeader}>
                                 <Text style={styles.reportTitle}>{report.category}</Text>
-                                <Text style={[
-                                    styles.reportStatus,
-                                    { color: report.status === 'resolved' ? '#00CC66' : '#FFA500' }
-                                ]}>
-                                    {report.status}
-                                </Text>
+                                <View style={styles.statusContainer}>
+                                    <Text style={[
+                                        styles.reportStatus,
+                                        { color: report.status === 'Reviewed' ? '#00CC66' : '#FFA500' }
+                                    ]}>
+                                        {report.status}
+                                    </Text>
+                                    <ChevronDown 
+                                        size={20} 
+                                        color="rgba(255, 255, 255, 0.6)"
+                                        style={[
+                                            styles.chevron,
+                                            expandedReports[report.id] && styles.chevronRotated
+                                        ]}
+                                    />
+                                </View>
                             </View>
                             
                             <Text style={styles.reportDescription}>
@@ -248,5 +260,17 @@ detailValue: {
     fontSize: 14,
     color: 'white',
     flex: 1,
+},
+statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+},
+chevron: {
+    marginLeft: 4,
+    transform: [{ rotate: '0deg' }],
+},
+chevronRotated: {
+    transform: [{ rotate: '180deg' }],
 },
 });

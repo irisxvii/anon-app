@@ -3,6 +3,7 @@ import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 import Animated, { FadeIn, FadeInDown, Layout } from 'react-native-reanimated';
+import { ChevronDown } from 'lucide-react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -14,9 +15,10 @@ type ReportWithId = ReportData & { id: string };
 
 const formatDate = (date: Date | Timestamp) => {
     if (date instanceof Timestamp) {
-        return date.toDate().toLocaleDateString();
+        const d = date.toDate();
+        return `${d.toLocaleDateString()} at ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     }
-    return date.toLocaleDateString();
+    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 };
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
@@ -36,7 +38,7 @@ export default function AdminDashboard() {
 
     const handleStatusUpdate = async (reportId: string, currentStatus: string) => {
         try {
-            const newStatus = currentStatus === 'pending' ? 'resolved' : 'pending';
+            const newStatus = currentStatus === 'Pending' ? 'Reviewed' : 'Pending';
             await updateReportStatus(reportId, newStatus);
         } catch (err) {
             console.error('Failed to update status:', err);
@@ -99,22 +101,32 @@ export default function AdminDashboard() {
                         >
                             <View style={styles.reportHeader}>
                                 <Text style={styles.reportTitle}>{report.category}</Text>
-                                <TouchableOpacity
-                                    onPress={(e) => {
-                                        e.stopPropagation();
-                                        handleStatusUpdate(report.id, report.status);
-                                    }}
-                                    disabled={isUpdating}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.reportStatus,
-                                            { color: report.status === 'resolved' ? '#00CC66' : '#FFA500' }
-                                        ]}
+                                <View style={styles.statusContainer}>
+                                    <TouchableOpacity
+                                        onPress={(e) => {
+                                            e.stopPropagation();
+                                            handleStatusUpdate(report.id, report.status);
+                                        }}
+                                        disabled={isUpdating}
                                     >
-                                        {report.status}
-                                    </Text>
-                                </TouchableOpacity>
+                                        <Text
+                                            style={[
+                                                styles.reportStatus,
+                                                { color: report.status === 'Reviewed' ? '#00CC66' : '#FFA500' }
+                                            ]}
+                                        >
+                                            {report.status}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <ChevronDown 
+                                        size={20} 
+                                        color="rgba(255, 255, 255, 0.6)"
+                                        style={[
+                                            styles.chevron,
+                                            expandedReports[report.id] && styles.chevronRotated
+                                        ]}
+                                    />
+                                </View>
                             </View>
                             <Text style={styles.reportDescription}>
                                 {expandedReports[report.id] 
@@ -266,5 +278,17 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: 'white',
         flex: 1,
+    },
+    statusContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+    },
+    chevron: {
+        marginLeft: 4,
+        transform: [{ rotate: '0deg' }],
+    },
+    chevronRotated: {
+        transform: [{ rotate: '180deg' }],
     },
 });
