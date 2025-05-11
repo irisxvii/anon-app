@@ -1,15 +1,17 @@
 import { useRouter } from 'expo-router';
 import { Timestamp } from 'firebase/firestore';
-import { useState } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
+import { useState, useEffect } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform, GestureResponderEvent } from 'react-native';
 import Animated, { FadeIn, FadeInDown, Layout } from 'react-native-reanimated';
 import { ChevronDown } from 'lucide-react-native';
+import * as Notifications from 'expo-notifications';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useFetchReports } from '@/hooks/useFetchReports';
 import { ReportData } from '@/hooks/useReport';
 import { useUpdateReport } from '@/hooks/useUpdateReport';
+import { registerForPushNotificationsAsync, saveTokenToFirestore } from '@/utils/notifications';    
 
 type ReportWithId = ReportData & { id: string };
 
@@ -29,8 +31,27 @@ export default function AdminDashboard() {
     const { updateReportStatus, isUpdating } = useUpdateReport();
     const [expandedReports, setExpandedReports] = useState<{ [key: string]: boolean }>({});
 
+    useEffect(() => {
+        const setupNotifications = async () => {
+            const token = await registerForPushNotificationsAsync();
+            if (token) {
+                await saveTokenToFirestore('admin', token);
+            }
+        };
+
+        setupNotifications();
+
+        const subscription = Notifications.addNotificationReceivedListener(notification => {
+            console.log('Notification received:', notification);
+        });
+
+        return () => {
+            subscription.remove();
+        };
+    }, []);
+
     const toggleExpand = (reportId: string) => {
-        setExpandedReports(prev => ({
+        setExpandedReports((prev: {[key: string]:boolean}) => ({
             ...prev,
             [reportId]: !prev[reportId]
         }));
@@ -63,7 +84,7 @@ export default function AdminDashboard() {
         );
     }
 
-    const validReports = reports.filter((report): report is ReportWithId => !!report.id);
+    const validReports = reports.filter((report:ReportData): report is ReportWithId => !!report.id);
 
     return (
         <ThemedView style={styles.mainContainer}>
@@ -91,7 +112,7 @@ export default function AdminDashboard() {
                         </ThemedText>
                     </Animated.View>
                 ) : (
-                    validReports.map((report, index) => (
+                    validReports.map((report: ReportWithId, index: number) => (
                         <AnimatedTouchableOpacity 
                             key={report.id}
                             entering={FadeInDown.delay(300 + index * 100)}
@@ -103,7 +124,7 @@ export default function AdminDashboard() {
                                 <Text style={styles.reportTitle}>{report.category}</Text>
                                 <View style={styles.statusContainer}>
                                     <TouchableOpacity
-                                        onPress={(e) => {
+                                        onPress={(e: GestureResponderEvent) => {
                                             e.stopPropagation();
                                             handleStatusUpdate(report.id, report.status);
                                         }}

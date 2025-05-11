@@ -2,6 +2,8 @@ import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { db } from '../FirebaseConfig';
 import { getUserId } from '../utils/storage';
+import { getAdminTokens } from '@/utils/notifications';
+import * as Notifications from 'expo-notifications';
 
 export type ReportCategory = 'Drug Related' | 'Abuse Cases' | 'Suspicious Activity' | 'Other Issues';
 export type ReportStatus = 'Pending' | 'Reviewed';
@@ -39,6 +41,18 @@ export const useReport = () => {
       console.log('attempting to add doc to firestore');
       const docRef = await addDoc(collection(db, 'reports'), reportData);
       console.log('doc added successfully');
+
+      const adminTokens = await getAdminTokens();     
+      if (adminTokens) {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: 'New Report Submitted',
+            body: `A new ${data.category} report has been submitted omg`,
+            data: { reportId: docRef.id },
+          },
+          trigger: null,
+        });
+      }
       
       return docRef.id;
     } catch (err) {
