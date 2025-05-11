@@ -22,18 +22,16 @@ A secure, campus-specific mobile application designed for students to anonymousl
 ## Current Status
 ### Completed
 - Core UI
-- Firebase integration (Auth + Firestore)
+- Role-based login
+- Firebase integration
 - Anonymous reporting system
 - Admin dashboard with real-time updates
-- Role-based login
 - Report status tracking
+- Notify admins when a new report is submitted
 - Basic device testing
 
 ### In Progress
 - Testing and final deployment setup
-
-### Next Up
-- Notify admins in real-time when a new report is submitted
 
 ## How to configure
 
