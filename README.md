@@ -20,6 +20,11 @@ A secure, campus-specific mobile application designed for students to anonymousl
 - **Language:** TypeScript
 
 ## Current Status
+
+
+https://github.com/user-attachments/assets/bf2b427a-d90e-4ada-b3b5-eef3dc59340d
+
+
 ### Completed
 - Core UI
 - Role-based login
